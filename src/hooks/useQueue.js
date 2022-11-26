@@ -1,30 +1,25 @@
 // https://usehooks-ts.com/react-hook/use-map
 
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from "react";
 
-import Queue from '../queues/queue';
+import Queue from "../queues/queue";
 
-export default useQueue = (initialState = new Queue()) => {
+const useQueue = (initialState = new Queue()) => {
   const [queue, setQueue] = useState(new Queue(initialState));
 
   const actions = {
     enqueue: useCallback((value) => {
-      setQueue((prev) => {
-        const copy = new Queue(prev);
-        copy.enqueue(value);
-        return copy;
-      });
+      queue.enqueue(value);
+      setQueue(new Queue(queue));
     }, []),
 
-    dequeue: useCallback((entries) => {
-      setQueue((prev) => {
-        const copy = new Queue(prev);
-        copy.dequeue(value);
-        return copy;
-      });
+    dequeue: useCallback(() => {
+      queue.dequeue();
+      console.log(queue);
+      setQueue(new Queue(queue));
     }, []),
 
-    clear: useCallback((key) => {
+    clear: useCallback(() => {
       setQueue(new Queue());
     }, []),
   };
@@ -32,4 +27,4 @@ export default useQueue = (initialState = new Queue()) => {
   return [queue, actions];
 };
 
-useMap;
+export default useQueue;

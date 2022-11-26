@@ -1,28 +1,24 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from "react";
 
-export default useQueuePromise = (queuepromise = new QueuePromise()) => {
+import QueuePromise from "../queues/queue-promise";
+
+const useQueuePromise = (queuepromise = new QueuePromise()) => {
   const [qp, setQp] = useState(queuepromise);
   const [qpstate, setState] = useState(queuepromise.state);
   const [taskId, setTaskId] = useState(0);
 
   const actions = {
     addTask: useCallback((task) => {
-      setQp((prev) => {
-        prev.enqueue(task);
-        return prev;
-      });
+      qp.enqueue(task);
+      setQp(new QueuePromise(qp));
     }, []),
     start: useCallback(() => {
-      setQp((prev) => {
-        prev.start();
-        return prev;
-      });
+      qp.start();
+      setQp(new QueuePromise(qp));
     }, []),
-    stop: useCallback((task) => {
-      setQp((prev) => {
-        prev.stop();
-        return prev;
-      });
+    stop: useCallback(() => {
+      qp.stop();
+      setQp(new QueuePromise(qp));
     }, []),
   };
 
@@ -47,3 +43,5 @@ export default useQueuePromise = (queuepromise = new QueuePromise()) => {
 
   return [qp, qpstate, taskId, actions];
 };
+
+export default useQueuePromise;

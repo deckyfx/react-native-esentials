@@ -9,7 +9,12 @@ const SampleButton = ({}) => {
 
   return (
     <div>
-      <button onClick={modifyValue}>Modify Value</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+        onClick={modifyValue}
+      >
+        Modify Value
+      </button>
     </div>
   );
 };

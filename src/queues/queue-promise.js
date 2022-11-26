@@ -1,4 +1,4 @@
-import Queue from './queue';
+import Queue from "./queue";
 
 // @flow
 export const State = {
@@ -74,10 +74,10 @@ export default class QueuePromise extends Queue {
    * @param   {boolean} options.start       Whether it should automatically execute new tasks as soon as they are added
    * @return  {Queue}
    */
-  constructor(options = {}) {
-    super();
+  constructor(initial = null, options = {}) {
+    super(initial);
 
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
     this.options.interval = parseInt(this.options.interval, 10);
     this.options.concurrent = parseInt(this.options.concurrent, 10);
   }
@@ -191,7 +191,7 @@ export default class QueuePromise extends Queue {
                 this._onDequeued(id);
               }
               this.finalize();
-            }),
+            })
         );
       }
     });
@@ -216,7 +216,7 @@ export default class QueuePromise extends Queue {
    * @access  public
    */
   dequeue() {
-    const {interval} = this.options;
+    const { interval } = this.options;
 
     return new Promise((resolve, reject) => {
       const timeout = Math.max(0, interval - (Date.now() - this.lastRan));
@@ -243,7 +243,7 @@ export default class QueuePromise extends Queue {
       return;
     }
 
-    if (typeof tasks !== 'function') {
+    if (typeof tasks !== "function") {
       throw new Error(`You must provide a function, not ${typeof tasks}.`);
     }
 

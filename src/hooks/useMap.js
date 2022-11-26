@@ -1,8 +1,8 @@
 // https://usehooks-ts.com/react-hook/use-map
 
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from "react";
 
-function useMap(initialState = new Map()) {
+const useMap = (initialState = new Map()) => {
   const [map, setMap] = useState(new Map(initialState));
 
   const actions = {
@@ -32,6 +32,6 @@ function useMap(initialState = new Map()) {
   };
 
   return [map, actions];
-}
+};
 
 export default useMap;

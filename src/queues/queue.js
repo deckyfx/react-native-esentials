@@ -3,7 +3,7 @@ class Queue {
   constructor(initial = null) {
     this.elements = new Map();
     if (initial instanceof Queue) {
-      this.elements = initial;
+      this.elements = initial.elements;
     }
     if (Array.isArray(initial)) {
       this.elements = new Map();
@@ -23,7 +23,7 @@ class Queue {
 
   dequeue() {
     const item = this.at(0);
-    this.elements.delete(0);
+    this.elements.delete(item.key);
     return item;
   }
 
