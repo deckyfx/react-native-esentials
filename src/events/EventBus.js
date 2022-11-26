@@ -1,22 +1,23 @@
 // Event bus
 
-import {useEffect} from 'react';
+import { useEffect } from "react";
 
 class EventBus {
   constructor() {
-    if (!EventBus.instance) {
-      EventBus.instance = this;
+    if (this.constructor.name !== "EventBus") {
+      this.init();
+      return;
     }
-
-    this._subscribers = [];
-
+    if (!EventBus.__instance__) {
+      EventBus.__instance__ = this;
+    }
     // Initialize object
     this.init();
-    return EventBus.instance;
+    return EventBus.__instance__;
   }
 
   init() {
-    // Init the state here
+    this._subscribers = [];
   }
 
   subscribe(filter, callback) {
@@ -31,25 +32,25 @@ class EventBus {
 
     return () => {
       this._subscribers = this._subscribers.filter(
-        (subscriber) => subscriber[1] !== callback,
+        (subscriber) => subscriber[1] !== callback
       );
     };
   }
 
   dispatch(event, args = []) {
-    let {type} = event;
-    if (typeof event === 'string') {
+    let { type } = event;
+    if (typeof event === "string") {
       type = event;
     }
 
-    if (typeof event === 'string') {
-      args.push({type});
+    if (typeof event === "string") {
+      args.push({ type });
     } else {
       args.unshift(event);
     }
 
     this._subscribers.forEach(([filter, callback]) => {
-      if (typeof filter === 'string' && filter !== type) {
+      if (typeof filter === "string" && filter !== type) {
         return;
       }
       if (Array.isArray(filter) && !filter.includes(type)) {
@@ -58,7 +59,7 @@ class EventBus {
       if (filter instanceof RegExp && !filter.test(type)) {
         return;
       }
-      if (typeof filter === 'function' && !filter(...args)) {
+      if (typeof filter === "function" && !filter(...args)) {
         return;
       }
       callback(...args);
@@ -87,3 +88,5 @@ export const createUseEventBus = (eventbus) => {
     return eventbus.dispatch;
   };
 };
+
+export default EventBus;

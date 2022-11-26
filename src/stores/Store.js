@@ -1,9 +1,6 @@
 // zustand like store state implementation combined with async storage
 
-import {useEffect, useState} from 'react';
-
-// Register extra state here
-import {SampleState, modifySampleState} from './SampleState';
+import { useEffect, useState } from "react";
 
 export const StoreKeys = Object.freeze({
   // USER_PREFERENCES_LANGUAGE: "USER_PREFERENCES_LANGUAGE",
@@ -11,26 +8,23 @@ export const StoreKeys = Object.freeze({
 
 class Store {
   constructor() {
-    if (!Store.instance) {
-      Store.instance = this;
+    if (this.constructor.name !== "Store") {
+      return;
     }
-
-    this._state = {
-      value: 0,
-
-      // Register default State Here
-      ...SampleState,
-    };
-
-    this._listeners = new Set();
-
-    // Initialize object
+    if (!Store.__instance__) {
+      Store.__instance__ = this;
+    }
     this.init();
-    return Store.instance;
+    return Store.__instance__;
   }
 
   init() {
-    // Init the state here
+    this._listeners = new Set();
+    this._state = this.intial();
+  }
+
+  intial() {
+    return {};
   }
 
   get state() {
@@ -57,18 +51,6 @@ class Store {
       ...newState,
     };
   }
-
-  // Properties & Methods
-  increaseValue() {
-    this.modify({
-      value1: this._state.value + 1,
-    });
-  }
-
-  // Register modifier here
-  modifySampleState(...args) {
-    this.modify(modifySampleState(this.state, ...args));
-  }
 }
 
 export const StoreInstance = new Store();
@@ -78,7 +60,7 @@ export const useStore = (selector = (_state) => _state) => {
   const [state, setState] = useState(selector(StoreInstance.state));
   useEffect(
     () => StoreInstance.subscribe((_state) => setState(selector(_state))),
-    [],
+    []
   );
   return state;
 };
@@ -91,8 +73,10 @@ export const createUseStore = (store) => {
     const [state, setState] = useState(selector(store.state));
     useEffect(
       () => store.subscribe((_state) => setState(selector(_state))),
-      [],
+      []
     );
     return state;
   };
 };
+
+export default Store;

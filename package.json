@@ -1,0 +1,26 @@
+{
+  "name": "react-native-esentials",
+  "version": "1.0.0",
+  "description": "Collection of Zero Dependencies of usefull react/react-native functions",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://deckyfx@github.com/deckyfx/react-native-esentials.git"
+  },
+  "keywords": [
+    "react",
+    "react-native"
+  ],
+  "author": "Decky Fx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deckyfx/react-native-esentials/issues"
+  },
+  "homepage": "https://github.com/deckyfx/react-native-esentials#readme"
+}
