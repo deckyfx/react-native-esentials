@@ -1,17 +1,23 @@
-class Queue {
+export type ResolvedQueueItem<T> = {
+  key: number;
+  value: T;
+};
+
+class Queue<T> {
   uniqueId = 0;
-  constructor(initial = null) {
+  elements: Map<number, T>;
+  constructor(initial: Queue<T> | T[] | null | undefined = null) {
     this.elements = new Map();
     if (initial instanceof Queue) {
       this.elements = initial.elements;
     }
     if (Array.isArray(initial)) {
       this.elements = new Map();
-      this.enqueue(initial);
+      this.enqueue(initial as T[]);
     }
   }
 
-  enqueue(element) {
+  enqueue(element: T | T[]): T | undefined {
     if (Array.isArray(element)) {
       element.map((_element) => this.enqueue(_element));
       return;
@@ -21,53 +27,56 @@ class Queue {
     return element;
   }
 
-  dequeue() {
+  dequeue(): ResolvedQueueItem<T> | undefined {
     const item = this.at(0);
+    if (!item) {
+      return undefined;
+    }
     this.elements.delete(item.key);
     return item;
   }
 
-  clear() {
+  clear(): void {
     this.uniqueId = 0;
     return this.elements.clear();
   }
 
-  keyAt(index) {
+  keyAt(index: number): number {
     return Array.from(this.elements.keys())[index];
   }
 
-  at(index) {
+  at(index: number): ResolvedQueueItem<T> | undefined {
     const key = this.keyAt(index);
     if (!key) {
       return undefined;
     }
     return {
       key: key,
-      value: this.elements.get(key),
+      value: this.elements.get(key) as T,
     };
   }
 
-  get first() {
+  get first(): ResolvedQueueItem<T> | undefined {
     return this.at(0);
   }
 
-  get last() {
+  get last(): ResolvedQueueItem<T> | undefined {
     return this.at(this.length - 1);
   }
 
-  get length() {
+  get length(): number {
     return this.elements.size;
   }
 
-  get isEmpty() {
+  get isEmpty(): boolean {
     return this.length === 0;
   }
 
-  get array() {
+  get array(): ResolvedQueueItem<T>[] {
     return Array.from(this.elements.keys()).map((key) => {
       return {
         key: key,
-        value: this.elements.get(key),
+        value: this.elements.get(key) as T,
       };
     });
   }

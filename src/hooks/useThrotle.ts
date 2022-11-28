@@ -1,9 +1,9 @@
 // Simmilar to useDebouce but its Throtled
 
-import {useEffect, useState, useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-export default useDebounce = (value, delay = 0) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+const useThrotle = <T>(value: T, delay?: number): T => {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   const shouldWait = useRef(false);
 
@@ -24,3 +24,5 @@ export default useDebounce = (value, delay = 0) => {
 
   return debouncedValue;
 };
+
+export default useThrotle;

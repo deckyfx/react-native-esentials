@@ -1,16 +1,14 @@
 // https://usehooks-ts.com/react-hook/use-interval
 
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
-import {useIsomorphicLayoutEffect} from 'usehooks-ts';
-
-export default useInterval = (callback, delay) => {
+const useInterval = (callback: () => void, delay: number | null): void => {
   const savedCallback = useRef(callback);
 
   // Remember the latest callback if it changes.
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     savedCallback.current = callback;
-  }, [callback]);
+  }, []);
 
   // Set up the interval.
   useEffect(() => {
@@ -25,3 +23,5 @@ export default useInterval = (callback, delay) => {
     return () => clearInterval(id);
   }, [delay]);
 };
+
+export default useInterval;

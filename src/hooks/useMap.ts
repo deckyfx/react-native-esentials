@@ -1,11 +1,24 @@
 // https://usehooks-ts.com/react-hook/use-map
 
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
-const useMap = (initialState = new Map()) => {
+export type MapOrEntries<K, V> = Map<K, V> | [K, V][];
+
+// Public interface
+export interface MapActions<K, V> {
+  set: (key: K, value: V) => void;
+  setAll: (entries: MapOrEntries<K, V>) => void;
+  remove: (key: K) => void;
+  reset: Map<K, V>['clear'];
+}
+
+// We hide some setters from the returned map to disable autocompletion
+type Return<K, V> = [Omit<Map<K, V>, 'set' | 'clear' | 'delete'>, MapActions<K, V>];
+
+const useMap = <K, V>(initialState: MapOrEntries<K, V> = new Map()): Return<K, V> => {
   const [map, setMap] = useState(new Map(initialState));
 
-  const actions = {
+  const actions: MapActions<K, V> = {
     set: useCallback((key, value) => {
       setMap((prev) => {
         const copy = new Map(prev);

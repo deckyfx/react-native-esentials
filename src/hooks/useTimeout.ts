@@ -1,9 +1,14 @@
 // https://usehooks-ts.com/react-hook/use-timeout
 
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
-export default useTimeout = (callback, delay) => {
+const useTimeout = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef(callback);
+
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
 
   // Set up the timeout.
   useEffect(() => {
@@ -18,3 +23,5 @@ export default useTimeout = (callback, delay) => {
     return () => clearTimeout(id);
   }, [delay]);
 };
+
+export default useTimeout;

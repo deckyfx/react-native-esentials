@@ -1,25 +1,25 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from "react";
 
-import {View, Text} from 'react-native';
+import { View, Text } from "react-native";
 
-import {useStore} from '../stores/Store';
-import {useEventBus} from '../events/EventBus';
+import { useStore } from "../stores/Store";
+import { useEventBus } from "../events/EventBus";
 
-import useQueuePromise from '../hooks/useQueuePromise';
+import useQueuePromise from "../hooks/useQueuePromise";
 
-import {SampleStateHook} from '../stores/SampleState';
-import {SampleEventMatcher} from '../events/SampleEvent';
+import { SampleStateHook } from "../stores/SampleState";
+import { SampleEventMatcher } from "../events/SampleEvent";
 
 const SampleDisplay = ({}) => {
   const state = useStore(SampleStateHook);
 
-  const [qp, qpstate, taskId, {addTask, start, stop}] = useQueuePromise();
+  const [qp, qpstate, taskId, { addTask, start, stop }] = useQueuePromise();
 
   const newTask = (arg) => {
     return async () =>
       new Promise((resolve) => {
         setTimeout(() => {
-          console.log('Pending task', arg);
+          console.log("Pending task", arg);
           resolve();
         }, 1000);
       });
@@ -28,13 +28,13 @@ const SampleDisplay = ({}) => {
   useEventBus(
     SampleEventMatcher(),
     () => {
-      console.log('triggered');
+      console.log("triggered");
     },
-    [],
+    []
   );
 
   useEffect(() => {
-    console.log('Changed?', state);
+    console.log("Changed?", state);
     if (state == 3) {
       start();
     }

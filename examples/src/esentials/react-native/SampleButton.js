@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import {TouchableOpacity, Text, View} from 'react-native';
+import { TouchableOpacity, Text, View } from "react-native";
 
-import {S} from '../stores/Store';
-import {E} from '../events/EventBus';
+import { S } from "../stores/Store";
+import { E } from "../events/EventBus";
 
-import {SampleEvent} from '../events/SampleEvent';
+import { SampleEvent } from "../events/SampleEvent";
 
 const SampleButton = ({}) => {
   const modifyValue = () => {

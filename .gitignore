@@ -84,3 +84,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 *.lock
+
+node_modules
+/lib

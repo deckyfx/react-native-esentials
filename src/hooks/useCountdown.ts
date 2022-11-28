@@ -1,30 +1,46 @@
 // https://usehooks-ts.com/react-hook/use-countdown
 
-// TODO: example and test
-import {useCallback} from 'react';
+import { useCallback } from 'react';
 
 import useBoolean from './useBoolean';
 import useCounter from './useCounter';
 import useInterval from './useInterval';
 
-/**
- * New interface with default value
- *
- * @param  {CountdownOption} countdownOption
- * @param  {number} countdownOption.countStart - the countdown's starting number, initial value of the returned number.
- * @param  {?number} countdownOption.countStop -  `0` by default, the countdown's stopping number. Pass `-Infinity` to decrease forever.
- * @param  {?number} countdownOption.intervalMs - `1000` by default, the countdown's interval, in milliseconds.
- * @param  {?boolean} countdownOption.isIncrement - `false` by default, true if the countdown is increment.
- * @returns [counter, CountdownControllers]
- */
+export interface UseCountdownType {
+  seconds: number;
+  interval: number;
+  isIncrement?: boolean;
+}
 
-export default useCountdown = (countdownOption) => {
+export interface CountdownHelpers {
+  start: () => void;
+  stop: () => void;
+  reset: () => void;
+}
+
+// New interface IN & OUT
+export interface CountdownOption {
+  countStart: number;
+  intervalMs?: number;
+  isIncrement?: boolean;
+  countStop?: number;
+}
+
+export interface CountdownControllers {
+  startCountdown: () => void;
+  stopCountdown: () => void;
+  resetCountdown: () => void;
+}
+
+const useCountdown = (
+  countdownOption: UseCountdownType | CountdownOption,
+): [number, CountdownHelpers | CountdownControllers] => {
   /**
    * Use to determine the the API call is a deprecated version.
    */
   let isDeprecated = false;
 
-  let countStart, intervalMs, isIncrement, countStop;
+  let countStart, intervalMs, isIncrement: boolean | undefined, countStop: number | undefined;
 
   if ('seconds' in countdownOption) {
     console.warn(
@@ -36,7 +52,8 @@ export default useCountdown = (countdownOption) => {
     intervalMs = countdownOption.interval;
     isIncrement = countdownOption.isIncrement;
   } else {
-    ({countStart, intervalMs, isIncrement, countStop} = countdownOption);
+    // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    ({ countStart, intervalMs, isIncrement, countStop } = countdownOption);
   }
 
   // default values
@@ -44,12 +61,7 @@ export default useCountdown = (countdownOption) => {
   isIncrement = isIncrement ?? false;
   countStop = countStop ?? 0;
 
-  const {
-    count,
-    increment,
-    decrement,
-    reset: resetCounter,
-  } = useCounter(countStart);
+  const [count, increment, decrement, resetCounter] = useCounter(countStart);
 
   /**
    * Note: used to control the useInterval
@@ -57,11 +69,7 @@ export default useCountdown = (countdownOption) => {
    * start: Should set running true to trigger interval
    * stop: Should set running false to remove interval
    */
-  const {
-    value: isCountdownRunning,
-    setTrue: startCountdown,
-    setFalse: stopCountdown,
-  } = useBoolean(false);
+  const [isCountdownRunning, startCountdown, stopCountdown] = useBoolean(false);
 
   /**
    * Will set running false and reset the seconds to initial value
@@ -93,7 +101,7 @@ export default useCountdown = (countdownOption) => {
           start: startCountdown,
           stop: stopCountdown,
           reset: resetCountdown,
-        },
+        } as CountdownHelpers,
       ]
     : [
         count,
@@ -101,6 +109,8 @@ export default useCountdown = (countdownOption) => {
           startCountdown,
           stopCountdown,
           resetCountdown,
-        },
+        } as CountdownControllers,
       ];
 };
+
+export default useCountdown;

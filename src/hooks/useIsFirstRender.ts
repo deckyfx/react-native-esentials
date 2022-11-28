@@ -1,8 +1,8 @@
 // https://usehooks-ts.com/react-hook/use-is-first-render
 
-import {useRef} from 'react';
+import { useRef } from 'react';
 
-export default useIsFirstRender = () => {
+const useIsFirstRender = (): boolean => {
   const isFirst = useRef(true);
 
   if (isFirst.current) {
@@ -13,3 +13,5 @@ export default useIsFirstRender = () => {
 
   return isFirst.current;
 };
+
+export default useIsFirstRender;

@@ -1,18 +1,26 @@
 // https://usehooks-ts.com/react-hook/use-step
 
-import {useCallback, useMemo, useState} from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
-export default useStep = (maxStep) => {
+export interface UseStepHelpers {
+  goToNextStep: () => void;
+  goToPrevStep: () => void;
+  reset: () => void;
+  canGoToNextStep: boolean;
+  canGoToPrevStep: boolean;
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+type setStepCallbackType = (step: number | ((step: number) => number)) => void;
+
+const useStep = (maxStep: number): [number, UseStepHelpers] => {
   const [currentStep, setCurrentStep] = useState(1);
 
-  const canGoToNextStep = useMemo(
-    () => currentStep + 1 <= maxStep,
-    [currentStep, maxStep],
-  );
+  const canGoToNextStep = useMemo(() => currentStep + 1 <= maxStep, [currentStep, maxStep]);
 
   const canGoToPrevStep = useMemo(() => currentStep - 1 >= 1, [currentStep]);
 
-  const setStep = useCallback(
+  const setStep = useCallback<setStepCallbackType>(
     (step) => {
       // Allow value to be a function so we have the same API as useState
       const newStep = step instanceof Function ? step(currentStep) : step;
@@ -55,3 +63,5 @@ export default useStep = (maxStep) => {
     },
   ];
 };
+
+export default useStep;
