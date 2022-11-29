@@ -1,8 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { E } from "../MyEventBus";
+import { E } from '../MyEventBus';
 
-import { SampleEvent } from "../SampleEvent";
+import { SampleEvent } from '../SampleEvent';
+
+import { joinClasses } from '../Helper';
 
 const SampleButton = ({}) => {
   const dispatchEvent = () => {
@@ -12,7 +14,16 @@ const SampleButton = ({}) => {
   return (
     <div>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+        className={joinClasses([
+          'bg-blue-500',
+          'hover:bg-blue-700',
+          'text-white',
+          'font-bold',
+          'py-2',
+          'px-4',
+          'rounded',
+          'shadow-sm',
+        ])}
         onClick={dispatchEvent}
       >
         Dispatch Event

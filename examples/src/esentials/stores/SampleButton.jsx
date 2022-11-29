@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { S } from "../MyStore";
+import { S } from '../MyStore';
+
+import { joinClasses } from '../Helper';
 
 const SampleButton = ({}) => {
   const modifyValue = () => {
@@ -10,7 +12,16 @@ const SampleButton = ({}) => {
   return (
     <div>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+        className={joinClasses([
+          'bg-blue-500',
+          'hover:bg-blue-700',
+          'text-white',
+          'font-bold',
+          'py-2',
+          'px-4',
+          'rounded',
+          'shadow-sm',
+        ])}
         onClick={modifyValue}
       >
         Modify Value
