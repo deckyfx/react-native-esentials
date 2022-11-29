@@ -1,6 +1,6 @@
 import Queue, { ResolvedQueueItem } from './queue';
 
-export enum State {
+export enum QueuePromiseState {
   IDLE = 0,
   RUNNING = 1,
   STOPPED = 2,
@@ -12,30 +12,32 @@ export type QueuePromiseConfig = {
   start?: boolean;
 };
 
-export default class QueuePromise extends Queue<Function> {
+export type QueuePromiseTask = (...args: any[]) => any;
+
+export default class QueuePromise extends Queue<QueuePromiseTask> {
   lastRan: number = 0;
   timeoutId: NodeJS.Timeout | null = null;
   currentlyHandled: number = 0;
-  state: State = State.IDLE;
+  state: QueuePromiseState = QueuePromiseState.IDLE;
   options: QueuePromiseConfig = {
     concurrent: 1,
     interval: 500,
     start: false,
   };
 
-  _onStart: Function | null = null;
-  _onStop: Function | null = null;
-  _onEnd: Function | null = null;
-  _onExecuting: Function | null = null;
-  _onResolved: Function | null = null;
-  _onRejected: Function | null = null;
-  _onDequeued: Function | null = null;
+  _onStart: QueuePromiseTask | null = null;
+  _onStop: QueuePromiseTask | null = null;
+  _onEnd: QueuePromiseTask | null = null;
+  _onExecuting: QueuePromiseTask | null = null;
+  _onResolved: QueuePromiseTask | null = null;
+  _onRejected: QueuePromiseTask | null = null;
+  _onDequeued: QueuePromiseTask | null = null;
 
   constructor(
-    initial: Queue<Function> | QueuePromise | Function[] | null | undefined = null,
+    initial: Queue<QueuePromiseTask> | QueuePromise | QueuePromiseTask[] | null | undefined = null,
     options: QueuePromiseConfig = {},
   ) {
-    super(initial as Queue<Function> | Function[] | null | undefined);
+    super(initial as Queue<QueuePromiseTask> | QueuePromiseTask[] | null | undefined);
 
     this.options = { ...this.options, ...options };
     this.options.interval = parseInt(this.options.interval as string, 10);
@@ -43,8 +45,8 @@ export default class QueuePromise extends Queue<Function> {
   }
 
   start(): void {
-    if (this.state !== State.RUNNING && !this.isEmpty) {
-      this.state = State.RUNNING;
+    if (this.state !== QueuePromiseState.RUNNING && !this.isEmpty) {
+      this.state = QueuePromiseState.RUNNING;
 
       if (this._onStart) {
         this._onStart();
@@ -52,7 +54,7 @@ export default class QueuePromise extends Queue<Function> {
 
       (async () => {
         while (this.shouldRun) {
-          await this.dequeue();
+          await this._dequeue();
         }
       })();
     }
@@ -63,7 +65,7 @@ export default class QueuePromise extends Queue<Function> {
       clearTimeout(this.timeoutId!);
     }
 
-    this.state = State.STOPPED;
+    this.state = QueuePromiseState.STOPPED;
 
     if (this._onStop) {
       this._onStop();
@@ -79,7 +81,7 @@ export default class QueuePromise extends Queue<Function> {
       // Finalize doesn't force queue to stop as `Queue.stop()` does. Therefore,
       // new tasks should be still resolved automatically if `options.start` was
       // set to `true` (see `Queue.enqueue`):
-      this.state = State.IDLE;
+      this.state = QueuePromiseState.IDLE;
 
       if (this._onEnd) {
         this._onEnd();
@@ -102,7 +104,7 @@ export default class QueuePromise extends Queue<Function> {
               if (this._onExecuting) {
                 this._onExecuting(id);
               }
-              return (promise as Function)();
+              return (promise as QueuePromiseTask)();
             })
             .then((value: unknown) => {
               if (this._onResolved) {
@@ -135,10 +137,14 @@ export default class QueuePromise extends Queue<Function> {
     return this.options.concurrent === 1 ? output[0] : output;
   }
 
-  dequeue(): ResolvedQueueItem<Function> | undefined {
+  dequeue(): ResolvedQueueItem<QueuePromiseTask> | undefined {
+    return;
+  }
+
+  _dequeue(): Promise<any> {
     const { interval } = this.options;
 
-    new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       const timeout = Math.max(0, (interval as number) - (Date.now() - this.lastRan));
 
       if (this.timeoutId) {
@@ -149,11 +155,9 @@ export default class QueuePromise extends Queue<Function> {
         this.execute().then(resolve);
       }, timeout);
     });
-
-    return;
   }
 
-  enqueue(tasks: Function | Function[]): Function | undefined {
+  enqueue(tasks: QueuePromiseTask | QueuePromiseTask[]): QueuePromiseTask | undefined {
     if (Array.isArray(tasks)) {
       tasks.map((task) => this.enqueue(task));
       return;
@@ -167,18 +171,18 @@ export default class QueuePromise extends Queue<Function> {
 
     // Start the queue if the queue should resolve new tasks automatically and
     // hasn't been forced to stop:
-    if (this.options.start && this.state !== State.STOPPED) {
+    if (this.options.start && this.state !== QueuePromiseState.STOPPED) {
       this.start();
     }
     return tasks;
   }
 
-  add(tasks: Function | Function[]) {
+  add(tasks: QueuePromiseTask | QueuePromiseTask[]) {
     this.enqueue(tasks);
   }
 
   get shouldRun(): boolean {
-    return !this.isEmpty && this.state !== State.STOPPED;
+    return !this.isEmpty && this.state !== QueuePromiseState.STOPPED;
   }
   setOnStart(cb: () => void) {
     this._onStart = cb;

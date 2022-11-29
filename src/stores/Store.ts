@@ -7,8 +7,11 @@ type StoreSubscriberListener = (state: StoreState) => void;
 type StoreUseSelector = (state: StoreState) => any;
 
 class Store {
+  // tslint:disable-next-line:variable-name
   static __instance__: Store;
+  // tslint:disable-next-line:variable-name
   private _subscribers = new Set<StoreSubscriberListener>();
+  // tslint:disable-next-line:variable-name
   private _state: StoreState;
   constructor() {
     if (this.constructor.name !== 'Store') {

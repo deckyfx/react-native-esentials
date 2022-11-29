@@ -33,7 +33,7 @@ const usePromise = <T>(task: () => Promise<T>) => {
       .then((result: T) => {
         setState({
           status: UsePromiseState.SUCCESS,
-          result: result,
+          result,
           error: null,
         });
         return Promise<void>;
@@ -42,7 +42,7 @@ const usePromise = <T>(task: () => Promise<T>) => {
         setState({
           status: UsePromiseState.FAILED,
           result: null,
-          error: error,
+          error,
         });
       })
       .finally(() => {
@@ -54,8 +54,6 @@ const usePromise = <T>(task: () => Promise<T>) => {
         });
       });
   }, [task]);
-
-  useEffect(() => {}, []); // << omit the condition here, functions don't equal each other²
 
   return [state.status, state.result, state.error, run];
 };

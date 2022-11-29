@@ -24,7 +24,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<
   };
 
   // Keep state logic separated
-  const fetchReducer = (state: FetchState<T>, action: Action<T>): FetchState<T> => {
+  const fetchReducer = (_state: FetchState<T>, action: Action<T>): FetchState<T> => {
     switch (action.type) {
       case 'loading':
         return { ...initialState };
@@ -33,7 +33,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<
       case 'error':
         return { ...initialState, error: action.payload };
       default:
-        return state;
+        return _state;
     }
   };
 

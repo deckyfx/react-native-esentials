@@ -8,12 +8,14 @@ type EventBusSubscriberListenerFilter =
   | AllowedFilterType
   | RegExp
   | AllowedFilterType[]
-  | Function
+  | ((...args: any[]) => any)
   | EventBusSubscriberListenerFilterConfig;
-type EventBusSubscriberListener = [EventBusSubscriberListenerFilter, Function];
+type EventBusSubscriberListener = [EventBusSubscriberListenerFilter, (...args: any[]) => any];
 
 class EventBus {
+  // tslint:disable-next-line:variable-name
   static __instance__: EventBus;
+  // tslint:disable-next-line:variable-name
   private _subscribers: EventBusSubscriberListener[] = [];
   constructor() {
     if (this.constructor.name !== 'EventBus') {
@@ -32,7 +34,7 @@ class EventBus {
     this._subscribers = [];
   }
 
-  subscribe(filter: EventBusSubscriberListenerFilter, callback: Function) {
+  subscribe(filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any) {
     if (filter === undefined || filter === null) {
       return undefined;
     }
@@ -88,7 +90,11 @@ class EventBus {
 export const EventBusInstance = new EventBus();
 export const E = EventBusInstance; // short hand
 
-export const useEventBus = (filter: EventBusSubscriberListenerFilter, callback: Function, deps: unknown[] = []) => {
+export const useEventBus = (
+  filter: EventBusSubscriberListenerFilter,
+  callback: (...args: any[]) => any,
+  deps: unknown[] = [],
+) => {
   useEffect(() => EventBusInstance.subscribe(filter, callback), deps);
   return EventBusInstance.dispatch;
 };
@@ -97,7 +103,7 @@ export const createUseEventBus = (eventbus: EventBus) => {
   if (!(eventbus instanceof EventBus)) {
     return;
   }
-  return (filter: EventBusSubscriberListenerFilter, callback: Function, deps: unknown[] = []) => {
+  return (filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any, deps: unknown[] = []) => {
     useEffect(() => EventBusInstance.subscribe(filter, callback), deps);
     return EventBusInstance.dispatch;
   };

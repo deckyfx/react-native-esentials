@@ -40,9 +40,13 @@ const useCountdown = (
    */
   let isDeprecated = false;
 
-  let countStart, intervalMs, isIncrement: boolean | undefined, countStop: number | undefined;
+  let countStart: number | undefined;
+  let intervalMs: number | undefined;
+  let isIncrement: boolean | undefined;
+  let countStop: number | undefined;
 
   if ('seconds' in countdownOption) {
+    // tslint:disable-next-line:no-console
     console.warn(
       '[useCountdown:DEPRECATED] new interface is already available (see https://usehooks-ts.com/react-hook/use-countdown), the old version will retire on usehooks-ts@3.',
     );

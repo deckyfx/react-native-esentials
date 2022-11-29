@@ -4,7 +4,7 @@ import QueuePromise from '../queues/queue-promise';
 
 // Public interface
 export interface QueuePromiseActions {
-  addTask: (task: Function) => void;
+  addTask: (task: (...args: any[]) => any) => void;
   start: () => void;
   stop: () => void;
 }

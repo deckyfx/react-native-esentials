@@ -51,7 +51,7 @@ class Queue<T> {
       return undefined;
     }
     return {
-      key: key,
+      key,
       value: this.elements.get(key) as T,
     };
   }
@@ -75,7 +75,7 @@ class Queue<T> {
   get array(): ResolvedQueueItem<T>[] {
     return Array.from(this.elements.keys()).map((key) => {
       return {
-        key: key,
+        key,
         value: this.elements.get(key) as T,
       };
     });
