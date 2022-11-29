@@ -1,4 +1,4 @@
-import { Store, createUseStore } from '../../../../src/index';
+import { Store, createUseStore } from '@decky.fx/react-native-essentials';
 
 // Register extra state here
 import { SampleState, modifySampleState } from './SampleState';

@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import useQueue from "../../../../../src/hooks/useQueue";
+import { useQueue } from '@decky.fx/react-native-essentials';
 
-import { joinClasses } from "../Helper";
+import { joinClasses } from '../Helper';
 
-import Enqueue from "./Enqueue";
-import Dequeue from "./Dequeue";
+import Enqueue from './Enqueue';
+import Dequeue from './Dequeue';
 
 const QueueExample = ({}) => {
   const [queue, { enqueue, dequeue, clear }] = useQueue();
@@ -25,14 +25,14 @@ const QueueExample = ({}) => {
       <Dequeue items={queue.array} onDequeue={onDequeue} />
       <button
         className={joinClasses([
-          "bg-blue-500",
-          "hover:bg-blue-700",
-          "text-white",
-          "font-bold",
-          "py-2",
-          "px-4",
-          "rounded",
-          "shadow-sm",
+          'bg-blue-500',
+          'hover:bg-blue-700',
+          'text-white',
+          'font-bold',
+          'py-2',
+          'px-4',
+          'rounded',
+          'shadow-sm',
         ])}
         onClick={clear}
       >

@@ -1,4 +1,4 @@
-import  {EventBus, createUseEventBus } from '../../../../src/index';
+import { EventBus, createUseEventBus } from '@decky.fx/react-native-essentials';
 
 class MyEventBus extends EventBus {
   constructor() {
