@@ -1,9 +1,8 @@
-import { E } from "./MyEventBus";
+import { E } from './MyEventBus';
 
 export const SampleEvent = {
-  channel: "channel",
-  type: "type",
+  channel: 'channel',
+  event: 'event',
 };
 
-export const SampleEventMatcher = () =>
-  E.isMatching(SampleEvent.channel, SampleEvent.type);
+export const SampleEventMatcher = () => E.isMatching(SampleEvent.channel, SampleEvent.event);

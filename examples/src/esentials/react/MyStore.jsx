@@ -1,7 +1,7 @@
-import Store, { createUseStore } from "../../../../src/stores/Store";
+import { Store, createUseStore } from '../../../../src/index';
 
 // Register extra state here
-import { SampleState, modifySampleState } from "./SampleState";
+import { SampleState, modifySampleState } from './SampleState';
 
 class MyStore extends Store {
   // Construct the store here

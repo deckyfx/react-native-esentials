@@ -69,7 +69,7 @@ export const useStore = (selector: StoreUseSelector = (_state: StoreState) => _s
 };
 
 export const createUseStore = (instance: Store) => {
-  if (instance instanceof Store == false) {
+  if (instance instanceof Store === false) {
     return null;
   }
   return (selector: StoreUseSelector = (_state: StoreState) => _state) => {

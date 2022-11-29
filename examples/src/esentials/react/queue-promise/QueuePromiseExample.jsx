@@ -1,23 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
-import useQueuePromise from "../../../../../src/hooks/useQueuePromise";
-import { State } from "../../../../../src/queues/queue-promise";
+import { useQueuePromise, QueuePromiseState } from '../../../../../src/index';
 
-import { joinClasses } from "../Helper";
+import { joinClasses } from '../Helper';
 
-import Enqueue from "./Enqueue";
-import Greeter from "./Greeter";
+import Enqueue from './Enqueue';
+import Greeter from './Greeter';
 
 const QueuePromiseExample = ({}) => {
-  const [qp, qpstate, taskId, { addTask, start, stop }] = useQueuePromise();
+  const [qp, qpstate, { addTask, start, stop }] = useQueuePromise(null, {
+    onExecuting: (_, id) => {
+      console.log('Executing:', id);
+    },
+    onResolved: (_, id, value) => {
+      console.log('Task ', id, 'Success with return value: ', value);
+    },
+  });
 
   const greet = (arg) => {
     return async () => {
       return new Promise((res) =>
         setTimeout(() => {
           getGreeter()?.greet(arg);
-          res();
-        }, 1000)
+          res(arg);
+        }, 1000),
       );
     };
   };
@@ -34,18 +40,18 @@ const QueuePromiseExample = ({}) => {
 
   const getQpState = () => {
     switch (qpstate) {
-      case State.IDLE:
-        return "IDLE";
-      case State.RUNNING:
-        return "RUNNING";
-      case State.STOPPED:
-        return "STOPPED";
+      case QueuePromiseState.IDLE:
+        return 'IDLE';
+      case QueuePromiseState.RUNNING:
+        return 'RUNNING';
+      case QueuePromiseState.STOPPED:
+        return 'STOPPED';
     }
   };
 
   useEffect(() => {
-    if (qpstate == State.IDLE) {
-      getGreeter()?.greet("");
+    if (qpstate == QueuePromiseState.IDLE) {
+      getGreeter()?.greet('');
     }
   }, [qpstate]);
 
@@ -55,14 +61,14 @@ const QueuePromiseExample = ({}) => {
       <Enqueue onEnqueue={onEnqueue} />
       <button
         className={joinClasses([
-          "bg-blue-500",
-          "hover:bg-blue-700",
-          "text-white",
-          "font-bold",
-          "py-2",
-          "px-4",
-          "rounded",
-          "shadow-sm",
+          'bg-blue-500',
+          'hover:bg-blue-700',
+          'text-white',
+          'font-bold',
+          'py-2',
+          'px-4',
+          'rounded',
+          'shadow-sm',
         ])}
         onClick={start}
       >
@@ -70,14 +76,14 @@ const QueuePromiseExample = ({}) => {
       </button>
       <button
         className={joinClasses([
-          "bg-blue-500",
-          "hover:bg-blue-700",
-          "text-white",
-          "font-bold",
-          "py-2",
-          "px-4",
-          "rounded",
-          "shadow-sm",
+          'bg-blue-500',
+          'hover:bg-blue-700',
+          'text-white',
+          'font-bold',
+          'py-2',
+          'px-4',
+          'rounded',
+          'shadow-sm',
         ])}
         onClick={stop}
       >

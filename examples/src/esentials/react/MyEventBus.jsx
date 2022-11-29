@@ -1,4 +1,4 @@
-import EventBus, { createUseEventBus } from "../../../../src/events/EventBus";
+import  {EventBus, createUseEventBus } from '../../../../src/index';
 
 class MyEventBus extends EventBus {
   constructor() {

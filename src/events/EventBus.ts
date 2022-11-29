@@ -100,7 +100,7 @@ export const useEventBus = (
 };
 
 export const createUseEventBus = (eventbus: EventBus) => {
-  if (eventbus instanceof EventBus == false) {
+  if (eventbus instanceof EventBus === false) {
     return;
   }
   return (filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any, deps: unknown[] = []) => {

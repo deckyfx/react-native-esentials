@@ -44,8 +44,7 @@ const useQueuePromise = (
   };
 
   useEffect(() => {
-    if (!queuepromise || queuepromise instanceof QueuePromise == false) {
-      console.log(queuepromise);
+    if (!queuepromise || queuepromise instanceof QueuePromise === false) {
       return;
     }
     queuepromise.setOnStart(() => {
