@@ -1,5 +1,5 @@
 {
-  "name": "react-native-esentials",
+  "name": "@deckyfx/react-native-essentials",
   "version": "1.0.0",
   "description": "Collection of Zero Dependencies of usefull react/react-native functions",
   "main": "lib/index.js",
