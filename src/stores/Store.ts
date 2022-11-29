@@ -62,19 +62,19 @@ class Store {
 export const StoreInstance = new Store();
 export const S = StoreInstance; // short hand
 
-export const useAStore = (selector: StoreUseSelector = (_state: StoreState) => _state) => {
+export const useStore = (selector: StoreUseSelector = (_state: StoreState) => _state) => {
   const [state, setState] = useState(selector(StoreInstance.state));
   useEffect(() => StoreInstance.subscribe((_state: StoreState) => setState(selector(_state))));
   return state;
 };
 
 export const createUseStore = (instance: Store) => {
-  if (!(instance instanceof Store)) {
+  if (instance instanceof Store == false) {
     return null;
   }
   return (selector: StoreUseSelector = (_state: StoreState) => _state) => {
-    const [state, setState] = useState(selector(StoreInstance.state));
-    useEffect(() => StoreInstance.subscribe((_state: StoreState) => setState(selector(_state))));
+    const [state, setState] = useState(selector(instance.state));
+    useEffect(() => instance.subscribe((_state: StoreState) => setState(selector(_state))));
     return state;
   };
 };

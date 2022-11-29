@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 
 import QueuePromise from '../queues/queue-promise';
 
@@ -10,20 +10,23 @@ export interface QueuePromiseActions {
 }
 
 export interface QueuePromiseCallbacks {
-  onStart?: () => void;
-  onStop?: () => void;
-  onEnd?: () => void;
-  onExecuting?: (id: number) => void;
-  onResolved?: (id: number, value: unknown) => void;
-  onRejected?: (id: number, error: Error) => void;
-  onDequeued?: (id: number) => void;
+  onStart?: (qp: QueuePromise) => void;
+  onStop?: (qp: QueuePromise) => void;
+  onEnd?: (qp: QueuePromise) => void;
+  onExecuting?: (qp: QueuePromise, id: number) => void;
+  onResolved?: (qp: QueuePromise, id: number, value: unknown) => void;
+  onRejected?: (qp: QueuePromise, id: number, error: Error) => void;
+  onDequeued?: (qp: QueuePromise, id: number) => void;
 }
 
 const useQueuePromise = (
-  queuepromise = new QueuePromise(),
+  queuepromise: QueuePromise | null | undefined = new QueuePromise(),
   callback: QueuePromiseCallbacks = {},
 ): [QueuePromise, number, QueuePromiseActions] => {
+  queuepromise = queuepromise ? queuepromise : new QueuePromise();
   const [qp, setQp] = useState(queuepromise);
+
+  const [qpstate, setQpstate] = useState(queuepromise.state);
 
   const actions: QueuePromiseActions = {
     addTask: useCallback((task) => {
@@ -41,34 +44,52 @@ const useQueuePromise = (
   };
 
   useEffect(() => {
-    if (!(queuepromise instanceof QueuePromise)) {
+    if (!queuepromise || queuepromise instanceof QueuePromise == false) {
+      console.log(queuepromise);
       return;
     }
-    if (callback.onStart) {
-      queuepromise.setOnStart(callback.onStart);
-    }
-    if (callback.onStop) {
-      queuepromise.setOnStop(callback.onStop);
-    }
-    if (callback.onEnd) {
-      queuepromise.setOnEnd(callback.onEnd);
-    }
-    if (callback.onExecuting) {
-      queuepromise.setOnExecuting(callback.onExecuting);
-    }
-    if (callback.onResolved) {
-      queuepromise.setOnResolved(callback.onResolved);
-    }
-    if (callback.onRejected) {
-      queuepromise.setOnRejected(callback.onRejected);
-    }
-    if (callback.onDequeued) {
-      queuepromise.setOnDequeued(callback.onDequeued);
-    }
+    queuepromise.setOnStart(() => {
+      setQpstate(qp.state);
+      if (callback.onStart) {
+        callback.onStart(qp);
+      }
+    });
+    queuepromise.setOnStop(() => {
+      setQpstate(qp.state);
+      if (callback.onStop) {
+        callback.onStop(qp);
+      }
+    });
+    queuepromise.setOnEnd(() => {
+      setQpstate(qp.state);
+      if (callback.onEnd) {
+        callback.onEnd(qp);
+      }
+    });
+    queuepromise.setOnExecuting((id) => {
+      if (callback.onExecuting) {
+        callback.onExecuting(qp, id);
+      }
+    });
+    queuepromise.setOnResolved((id, value) => {
+      if (callback.onResolved) {
+        callback.onResolved(qp, id, value);
+      }
+    });
+    queuepromise.setOnRejected((id, error) => {
+      if (callback.onRejected) {
+        callback.onRejected(qp, id, error);
+      }
+    });
+    queuepromise.setOnDequeued((id) => {
+      if (callback.onDequeued) {
+        callback.onDequeued(qp, id);
+      }
+    });
     queuepromise.start();
   }, []);
 
-  return [qp, qp.state, actions];
+  return [qp, qpstate, actions];
 };
 
 export default useQueuePromise;

@@ -100,12 +100,12 @@ export const useEventBus = (
 };
 
 export const createUseEventBus = (eventbus: EventBus) => {
-  if (!(eventbus instanceof EventBus)) {
+  if (eventbus instanceof EventBus == false) {
     return;
   }
   return (filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any, deps: unknown[] = []) => {
-    useEffect(() => EventBusInstance.subscribe(filter, callback), deps);
-    return EventBusInstance.dispatch;
+    useEffect(() => eventbus.subscribe(filter, callback), deps);
+    return eventbus.dispatch;
   };
 };
 
