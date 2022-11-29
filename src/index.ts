@@ -3,7 +3,7 @@ import Store from './stores/Store';
 import EventBus from './events/EventBus';
 
 import Queue from './queues/queue';
-import QueuePromise from './queues/queue-promise';
+import QueuePromise, { QueuePromiseState } from './queues/queue-promise';
 
 import useBoolean from './hooks/useBoolean';
 import useCountdown from './hooks/useCountdown';
@@ -25,14 +25,12 @@ import useTimeout from './hooks/useTimeout';
 import useToggle from './hooks/useToggle';
 import useUpdateEffect from './hooks/useUpdateEffect';
 
-export default {
+export {
   Store,
-
   EventBus,
-
   Queue,
   QueuePromise,
-
+  QueuePromiseState,
   useBoolean,
   useCountdown,
   useCounter,
