@@ -1,22 +1,10 @@
 // https://usehooks-ts.com/react-hook/use-countdown
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import useBoolean from './useBoolean';
 import useCounter from './useCounter';
 import useInterval from './useInterval';
-
-export interface UseCountdownType {
-  seconds: number;
-  interval: number;
-  isIncrement?: boolean;
-}
-
-export interface CountdownHelpers {
-  start: () => void;
-  stop: () => void;
-  reset: () => void;
-}
 
 // New interface IN & OUT
 export interface CountdownOption {
@@ -27,38 +15,22 @@ export interface CountdownOption {
 }
 
 export interface CountdownControllers {
-  startCountdown: () => void;
-  stopCountdown: () => void;
-  resetCountdown: () => void;
+  start: () => void;
+  stop: () => void;
+  reset: () => void;
 }
 
 const useCountdown = (
-  countdownOption: UseCountdownType | CountdownOption,
-): [number, CountdownHelpers | CountdownControllers] => {
-  /**
-   * Use to determine the the API call is a deprecated version.
-   */
-  let isDeprecated = false;
+  countdownOption: CountdownOption,
+  callback: () => void | null | undefined,
+): [number, boolean, CountdownControllers] => {
+  const savedCallback = useRef(callback);
 
   let countStart: number | undefined;
   let intervalMs: number | undefined;
   let isIncrement: boolean | undefined;
   let countStop: number | undefined;
-
-  if ('seconds' in countdownOption) {
-    // tslint:disable-next-line:no-console
-    console.warn(
-      '[useCountdown:DEPRECATED] new interface is already available (see https://usehooks-ts.com/react-hook/use-countdown), the old version will retire on usehooks-ts@3.',
-    );
-
-    isDeprecated = true;
-    countStart = countdownOption.seconds;
-    intervalMs = countdownOption.interval;
-    isIncrement = countdownOption.isIncrement;
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ({ countStart, intervalMs, isIncrement, countStop } = countdownOption);
-  }
+  ({ countStart, intervalMs, isIncrement, countStop } = countdownOption);
 
   // default values
   intervalMs = intervalMs ?? 1000;
@@ -73,19 +45,29 @@ const useCountdown = (
    * start: Should set running true to trigger interval
    * stop: Should set running false to remove interval
    */
-  const [isCountdownRunning, startCountdown, stopCountdown] = useBoolean(false);
+
+  const [isCountdownRunning, _, start, stop] = useBoolean(false);
 
   /**
    * Will set running false and reset the seconds to initial value
    */
-  const resetCountdown = () => {
-    stopCountdown();
+  const reset = () => {
+    stop();
     resetCounter();
   };
 
   const countdownCallback = useCallback(() => {
+    if (isIncrement && count === countStop! - 1) {
+      if (savedCallback.current) {
+        savedCallback.current();
+      }
+    } else if (!isIncrement && count === countStop! + 1) {
+      if (savedCallback.current) {
+        savedCallback.current();
+      }
+    }
     if (count === countStop) {
-      stopCountdown();
+      stop();
       return;
     }
 
@@ -94,27 +76,23 @@ const useCountdown = (
     } else {
       decrement();
     }
-  }, [count, countStop, decrement, increment, isIncrement, stopCountdown]);
+  }, [count, countStop, decrement, increment, isIncrement, stop, callback]);
 
-  useInterval(countdownCallback, isCountdownRunning ? intervalMs : null);
+  useInterval(countdownCallback, isCountdownRunning ? intervalMs : null, true);
 
-  return isDeprecated
-    ? [
-        count,
-        {
-          start: startCountdown,
-          stop: stopCountdown,
-          reset: resetCountdown,
-        } as CountdownHelpers,
-      ]
-    : [
-        count,
-        {
-          startCountdown,
-          stopCountdown,
-          resetCountdown,
-        } as CountdownControllers,
-      ];
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  return [
+    count,
+    isCountdownRunning,
+    {
+      start,
+      stop,
+      reset,
+    } as CountdownControllers,
+  ];
 };
 
 export default useCountdown;

@@ -7,7 +7,7 @@ export type UseTimeoutOutput = [execute: (delay?: number) => void];
 const useTimeout = (callback: () => void, delay: number | null, autostart = true): UseTimeoutOutput => {
   const savedCallback = useRef(callback);
 
-  const tmeoutId: React.MutableRefObject<NodeJS.Timeout | null> = useRef(null);
+  const timeoutId: React.MutableRefObject<NodeJS.Timeout | null> = useRef(null);
 
   // Remember the latest callback if it changes.
   useEffect(() => {
@@ -25,11 +25,11 @@ const useTimeout = (callback: () => void, delay: number | null, autostart = true
         return;
       }
       // if already executing, clear previous task
-      if (tmeoutId.current) {
-        clearTimeout(tmeoutId.current);
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
       }
 
-      tmeoutId.current = setTimeout(() => savedCallback.current(), delay);
+      timeoutId.current = setTimeout(() => savedCallback.current(), delay);
     },
     [callback],
   );
@@ -41,8 +41,8 @@ const useTimeout = (callback: () => void, delay: number | null, autostart = true
     }
 
     return () => {
-      if (tmeoutId.current) {
-        clearTimeout(tmeoutId.current);
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
       }
     };
   }, [delay]);
