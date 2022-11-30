@@ -34,6 +34,7 @@ import _useThrotle from './hooks/useThrotle';
 import _useTimeout from './hooks/useTimeout';
 import _useToggle from './hooks/useToggle';
 import _useUpdateEffect from './hooks/useUpdateEffect';
+import _useTime from './hooks/useTime';
 
 export const Store = _Store;
 export const StoreInstance = _StoreInstance;
@@ -68,6 +69,7 @@ export const useThrotle = _useThrotle;
 export const useTimeout = _useTimeout;
 export const useToggle = _useToggle;
 export const useUpdateEffect = _useUpdateEffect;
+export const useTime = _useTime;
 
 export default {
   Store,
@@ -103,4 +105,5 @@ export default {
   useTimeout,
   useToggle,
   useUpdateEffect,
+  useTime,
 };
