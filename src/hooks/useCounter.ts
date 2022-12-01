@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-type UseCounterOutput = [
-  count: number,
-  increment: () => void,
-  decrement: () => void,
-  reset: () => void,
-  setCount: Dispatch<SetStateAction<number>>,
-];
+type UseCounterOutput = {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+  reset: () => void;
+  setCount: Dispatch<SetStateAction<number>>;
+};
 
 const useCounter = (initialValue?: number): UseCounterOutput => {
   const [count, setCount] = useState(initialValue || 0);
@@ -15,7 +15,7 @@ const useCounter = (initialValue?: number): UseCounterOutput => {
   const decrement = () => setCount((x) => x - 1);
   const reset = () => setCount(initialValue || 0);
 
-  return [count, increment, decrement, reset, setCount];
+  return { count, increment, decrement, reset, setCount };
 };
 
 export default useCounter;

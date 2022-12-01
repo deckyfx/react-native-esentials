@@ -8,7 +8,11 @@ import Enqueue from './Enqueue';
 import Greeter from './Greeter';
 
 const QueuePromiseExample = ({}) => {
-  const [qp, qpstate, { addTask, start, stop }] = useQueuePromise(null, {
+  const {
+    querypromise: qp,
+    state: qpstate,
+    actions: { addTask, start, stop },
+  } = useQueuePromise(null, {
     onExecuting: (_, id) => {
       console.log('Executing:', id);
     },

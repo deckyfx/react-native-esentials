@@ -9,7 +9,9 @@ export enum UsePromiseState {
   FAILED = -1,
 }
 
-const usePromise = <T>(task: () => Promise<T>) => {
+const usePromise = <T>(
+  task: () => Promise<T>,
+): { status: UsePromiseState; result: T | null | undefined; error: Error | null | undefined; run: () => void } => {
   const [state, setState] = useState<{
     status: UsePromiseState;
     result: T | undefined | null;
@@ -55,7 +57,7 @@ const usePromise = <T>(task: () => Promise<T>) => {
       });
   }, [task]);
 
-  return [state.status, state.result, state.error, run];
+  return { status: state.status, result: state.result, error: state.error, run };
 };
 
 export default usePromise;

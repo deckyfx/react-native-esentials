@@ -5,7 +5,7 @@ import { useCounter } from '@decky.fx/react-native-essentials';
 import { joinClasses } from '../Helper';
 
 const UseCounterSample = ({}) => {
-  const [counter, increment, decrement, reset] = useCounter(0);
+  const { count: counter, increment, decrement, reset } = useCounter(0);
 
   return (
     <div className="flex space-x-4 items-center ">

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-export type UseIntervalOutput = [isRunning: boolean, start: (delay?: number) => void, stop: () => void];
+export type UseIntervalOutput = { isRunning: boolean; start: (delay?: number) => void; stop: () => void };
 
 const useInterval = (callback: () => void, delay: number | null, autostart = false): UseIntervalOutput => {
   const savedCallback = useRef(callback);
@@ -53,7 +53,7 @@ const useInterval = (callback: () => void, delay: number | null, autostart = fal
     return () => stop();
   }, [delay]);
 
-  return [isRunning, start, stop];
+  return { isRunning, start, stop };
 };
 
 export default useInterval;

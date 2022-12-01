@@ -37,7 +37,7 @@ const useCountdown = (
   isIncrement = isIncrement ?? false;
   countStop = countStop ?? 0;
 
-  const [count, increment, decrement, resetCounter] = useCounter(countStart);
+  const { count, increment, decrement, reset: resetCounter } = useCounter(countStart);
 
   /**
    * Note: used to control the useInterval
@@ -46,7 +46,7 @@ const useCountdown = (
    * stop: Should set running false to remove interval
    */
 
-  const [isCountdownRunning, _, start, stop] = useBoolean(false);
+  const { value: isCountdownRunning, setTrue: start, setFalse: stop } = useBoolean(false);
 
   /**
    * Will set running false and reset the seconds to initial value

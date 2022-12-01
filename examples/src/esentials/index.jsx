@@ -4,6 +4,8 @@ import QueueExample from './queue/QueueExample';
 import QueuePromiseExample from './queue-promise/QueuePromiseExample';
 import UseDebounceEffectSample from './useDebouncedEffect/UseDebounceEffectSample';
 import UseCounterSample from './useCounter/UseCounterSample';
+import UseTimeoutSample from './useTimeout/UseTimeoutSample';
+import UseCountdownSample from './useCountdown/UseCountdownSample';
 
 const Examples = () => {
   return (
@@ -14,6 +16,8 @@ const Examples = () => {
       <QueuePromiseExample />
       <UseDebounceEffectSample />
       <UseCounterSample />
+      <UseTimeoutSample />
+      <UseCountdownSample />
     </div>
   );
 };

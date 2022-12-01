@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 
-import QueuePromise from '../queues/queue-promise';
+import QueuePromise, { QueuePromiseState } from '../queues/queue-promise';
 
 // Public interface
 export interface QueuePromiseActions {
@@ -22,7 +22,7 @@ export interface QueuePromiseCallbacks {
 const useQueuePromise = (
   queuepromise: QueuePromise | null | undefined = new QueuePromise(),
   callback: QueuePromiseCallbacks = {},
-): [QueuePromise, number, QueuePromiseActions] => {
+): { querypromise: QueuePromise; state: QueuePromiseState; actions: QueuePromiseActions } => {
   queuepromise = queuepromise ? queuepromise : new QueuePromise();
   const [qp, setQp] = useState(queuepromise);
 
@@ -88,7 +88,7 @@ const useQueuePromise = (
     queuepromise.start();
   }, []);
 
-  return [qp, qpstate, actions];
+  return { querypromise: qp, state: qpstate, actions };
 };
 
 export default useQueuePromise;
