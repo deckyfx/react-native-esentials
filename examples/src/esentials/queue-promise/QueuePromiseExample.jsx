@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useQueuePromise, QueuePromiseState } from '@decky.fx/react-native-essentials';
+import useQueuePromise from '../../../../src/hooks/useQueuePromise';
+import { QueuePromiseState } from '../../../../src/queues/queue-promise';
 
 import { joinClasses } from '../Helper';
 

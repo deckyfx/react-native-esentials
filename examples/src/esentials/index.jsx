@@ -6,6 +6,7 @@ import UseDebounceEffectSample from './useDebouncedEffect/UseDebounceEffectSampl
 import UseCounterSample from './useCounter/UseCounterSample';
 import UseTimeoutSample from './useTimeout/UseTimeoutSample';
 import UseCountdownSample from './useCountdown/UseCountdownSample';
+import UseSelectionSample from './useSelection/UseSelectionSample';
 
 const Examples = () => {
   return (
@@ -18,6 +19,7 @@ const Examples = () => {
       <UseCounterSample />
       <UseTimeoutSample />
       <UseCountdownSample />
+      <UseSelectionSample />
     </div>
   );
 };

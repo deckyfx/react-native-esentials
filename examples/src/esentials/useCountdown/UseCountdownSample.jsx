@@ -4,7 +4,7 @@ import { useCountdown, TimerUtil } from '@decky.fx/react-native-essentials';
 
 import { joinClasses } from '../Helper';
 
-export default function UseCountdownSample() {
+const UseCountdownSample = () => {
   const [intervalValue, setIntervalValue] = useState(1000);
 
   const [count, iscounting, { start, stop, reset }] = useCountdown(
@@ -96,4 +96,6 @@ export default function UseCountdownSample() {
       <div>{iscounting ? `Counting ${count}` : ''}</div>
     </div>
   );
-}
+};
+
+export default UseCountdownSample;

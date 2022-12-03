@@ -28,9 +28,21 @@ export declare const createUseEventBus: (eventbus: _EventBus) => ((filter: RegEx
 }, args?: unknown[]) => void) | undefined;
 export declare const QueuePromise: typeof _QueuePromise;
 export declare const QueuePromiseState: typeof _QueuePromiseState;
-export declare const useBoolean: (defaultValue?: boolean | undefined) => [value: boolean, setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>, setTrue: () => void, setFalse: () => void, toggle: () => void];
+export declare const useBoolean: (defaultValue?: boolean | undefined) => {
+    value: boolean;
+    setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    setTrue: () => void;
+    setFalse: () => void;
+    toggle: () => void;
+};
 export declare const useCountdown: (countdownOption: import("./hooks/useCountdown").CountdownOption, callback: () => void | null | undefined) => [number, boolean, import("./hooks/useCountdown").CountdownControllers];
-export declare const useCounter: (initialValue?: number | undefined) => [count: number, increment: () => void, decrement: () => void, reset: () => void, setCount: import("react").Dispatch<import("react").SetStateAction<number>>];
+export declare const useCounter: (initialValue?: number | undefined) => {
+    count: number;
+    increment: () => void;
+    decrement: () => void;
+    reset: () => void;
+    setCount: import("react").Dispatch<import("react").SetStateAction<number>>;
+};
 export declare const useDebounce: <T>(value: T, delay?: number | undefined) => T;
 export declare const useDebouncedEffect: (action: import("react").EffectCallback, deps: never[], delay?: number) => void;
 export declare const useDeferredPromise: <DeferType>() => [() => {
@@ -47,13 +59,26 @@ export declare const useFetch: <T = unknown>(url?: string | undefined, options?:
 export declare const useInterval: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useInterval").UseIntervalOutput;
 export declare const useIsFirstRender: () => boolean;
 export declare const useMap: <K, V>(initialState?: import("./hooks/useMap").MapOrEntries<K, V>) => [Omit<Map<K, V>, "clear" | "set" | "delete">, import("./hooks/useMap").MapActions<K, V>];
-export declare const usePromise: <T>(task: () => Promise<T>) => (Error | T | import("./hooks/usePromise").UsePromiseState | (() => void) | null | undefined)[];
+export declare const usePromise: <T>(task: () => Promise<T>) => {
+    status: import("./hooks/usePromise").UsePromiseState;
+    result: T | null | undefined;
+    error: Error | null | undefined;
+    run: () => void;
+};
 export declare const useQueue: <T>(initialState?: _Queue<T>) => [_Queue<T>, import("./hooks/useQueue").QueueActions<T>];
-export declare const useQueuePromise: (queuepromise?: _QueuePromise | null | undefined, callback?: import("./hooks/useQueuePromise").QueuePromiseCallbacks) => [_QueuePromise, number, import("./hooks/useQueuePromise").QueuePromiseActions];
+export declare const useQueuePromise: (queuepromise?: _QueuePromise | null | undefined, callback?: import("./hooks/useQueuePromise").QueuePromiseCallbacks) => {
+    querypromise: _QueuePromise;
+    state: _QueuePromiseState;
+    actions: import("./hooks/useQueuePromise").QueuePromiseActions;
+};
 export declare const useStep: (maxStep: number) => [number, import("./hooks/useStep").UseStepHelpers];
 export declare const useThrotle: <T>(value: T, delay?: number | undefined) => T;
 export declare const useTimeout: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useTimeout").UseTimeoutOutput;
-export declare const useToggle: (defaultValue?: boolean | undefined) => [boolean, () => void, import("react").Dispatch<import("react").SetStateAction<boolean>>];
+export declare const useToggle: (defaultValue?: boolean | undefined) => {
+    value: boolean;
+    toggle: () => void;
+    setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+};
 export declare const useUpdateEffect: (effect: import("react").EffectCallback, deps?: import("react").DependencyList | undefined) => void;
 export declare const useTime: (format?: import("./hooks/useTime").TimeFormat) => import("./hooks/useTime").TimerUtilGetTimeOutput;
 export declare const TimerUtil: typeof _TimerUtil;
@@ -81,9 +106,21 @@ declare const _default: {
     }, args?: unknown[]) => void) | undefined;
     QueuePromise: typeof _QueuePromise;
     QueuePromiseState: typeof _QueuePromiseState;
-    useBoolean: (defaultValue?: boolean | undefined) => [value: boolean, setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>, setTrue: () => void, setFalse: () => void, toggle: () => void];
+    useBoolean: (defaultValue?: boolean | undefined) => {
+        value: boolean;
+        setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+        setTrue: () => void;
+        setFalse: () => void;
+        toggle: () => void;
+    };
     useCountdown: (countdownOption: import("./hooks/useCountdown").CountdownOption, callback: () => void | null | undefined) => [number, boolean, import("./hooks/useCountdown").CountdownControllers];
-    useCounter: (initialValue?: number | undefined) => [count: number, increment: () => void, decrement: () => void, reset: () => void, setCount: import("react").Dispatch<import("react").SetStateAction<number>>];
+    useCounter: (initialValue?: number | undefined) => {
+        count: number;
+        increment: () => void;
+        decrement: () => void;
+        reset: () => void;
+        setCount: import("react").Dispatch<import("react").SetStateAction<number>>;
+    };
     useDebounce: <T>(value: T, delay?: number | undefined) => T;
     useDebouncedEffect: (action: import("react").EffectCallback, deps: never[], delay?: number) => void;
     useDeferredPromise: <DeferType>() => [() => {
@@ -100,13 +137,26 @@ declare const _default: {
     useInterval: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useInterval").UseIntervalOutput;
     useIsFirstRender: () => boolean;
     useMap: <K, V>(initialState?: import("./hooks/useMap").MapOrEntries<K, V>) => [Omit<Map<K, V>, "clear" | "set" | "delete">, import("./hooks/useMap").MapActions<K, V>];
-    usePromise: <T_2>(task: () => Promise<T_2>) => (Error | T_2 | import("./hooks/usePromise").UsePromiseState | (() => void) | null | undefined)[];
+    usePromise: <T_2>(task: () => Promise<T_2>) => {
+        status: import("./hooks/usePromise").UsePromiseState;
+        result: T_2 | null | undefined;
+        error: Error | null | undefined;
+        run: () => void;
+    };
     useQueue: <T_3>(initialState?: _Queue<T_3>) => [_Queue<T_3>, import("./hooks/useQueue").QueueActions<T_3>];
-    useQueuePromise: (queuepromise?: _QueuePromise | null | undefined, callback?: import("./hooks/useQueuePromise").QueuePromiseCallbacks) => [_QueuePromise, number, import("./hooks/useQueuePromise").QueuePromiseActions];
+    useQueuePromise: (queuepromise?: _QueuePromise | null | undefined, callback?: import("./hooks/useQueuePromise").QueuePromiseCallbacks) => {
+        querypromise: _QueuePromise;
+        state: _QueuePromiseState;
+        actions: import("./hooks/useQueuePromise").QueuePromiseActions;
+    };
     useStep: (maxStep: number) => [number, import("./hooks/useStep").UseStepHelpers];
     useThrotle: <T_4>(value: T_4, delay?: number | undefined) => T_4;
     useTimeout: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useTimeout").UseTimeoutOutput;
-    useToggle: (defaultValue?: boolean | undefined) => [boolean, () => void, import("react").Dispatch<import("react").SetStateAction<boolean>>];
+    useToggle: (defaultValue?: boolean | undefined) => {
+        value: boolean;
+        toggle: () => void;
+        setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    };
     useUpdateEffect: (effect: import("react").EffectCallback, deps?: import("react").DependencyList | undefined) => void;
     useTime: (format?: import("./hooks/useTime").TimeFormat) => import("./hooks/useTime").TimerUtilGetTimeOutput;
     TimerUtil: typeof _TimerUtil;
