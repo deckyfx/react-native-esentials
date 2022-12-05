@@ -10,9 +10,9 @@ class Store {
   // tslint:disable-next-line:variable-name
   static __instance__: Store;
   // tslint:disable-next-line:variable-name
-  private _subscribers = new Set<StoreSubscriberListener>();
+  protected _subscribers = new Set<StoreSubscriberListener>();
   // tslint:disable-next-line:variable-name
-  private _state: StoreState;
+  protected _state: StoreState;
   constructor() {
     if (this.constructor.name !== 'Store') {
       return;

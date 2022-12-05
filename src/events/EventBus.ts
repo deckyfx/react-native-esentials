@@ -16,7 +16,7 @@ class EventBus {
   // tslint:disable-next-line:variable-name
   static __instance__: EventBus;
   // tslint:disable-next-line:variable-name
-  private _subscribers: EventBusSubscriberListener[] = [];
+  protected _subscribers: EventBusSubscriberListener[] = [];
   constructor() {
     if (this.constructor.name !== 'EventBus') {
       this.init();
