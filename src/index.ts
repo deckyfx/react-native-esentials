@@ -35,6 +35,7 @@ import _useTimeout from './hooks/useTimeout';
 import _useToggle from './hooks/useToggle';
 import _useUpdateEffect from './hooks/useUpdateEffect';
 import _useTime, { TimerUtil as _TimerUtil } from './hooks/useTime';
+import _useSelection, { UseSelectionArray as _UseSelectionArray } from './hooks/useSelection';
 
 export const Store = _Store;
 export const StoreInstance = _StoreInstance;
@@ -71,6 +72,8 @@ export const useToggle = _useToggle;
 export const useUpdateEffect = _useUpdateEffect;
 export const useTime = _useTime;
 export const TimerUtil = _TimerUtil;
+export const useSelection = _useSelection;
+export const SelectionArray = _UseSelectionArray;
 
 export default {
   Store,
@@ -81,6 +84,7 @@ export default {
 
   EventBus,
   EventBusInstance,
+  E,
   useEventBus,
   createUseEventBus,
 
@@ -108,4 +112,6 @@ export default {
   useUpdateEffect,
   useTime,
   TimerUtil,
+  useSelection,
+  SelectionArray,
 };

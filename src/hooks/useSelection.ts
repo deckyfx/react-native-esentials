@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
-// https://usehooks-ts.com/react-hook/use-boolean
+// Handling selections state
 
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-
-export type UseSelectionSelectorFunction<T> = (option: T) => boolean;
+import { useCallback, useState } from 'react';
 
 export interface UseSelectionSelectorObject {
   [key: string]: string | number;
 }
 
-export type UseSelectionSelector<T> = T | T[] | UseSelectionSelectorFunction<T>;
+export type UseSelectionSelector =
+  | string
+  | number
+  | string[]
+  | number[]
+  | UseSelectionSelectorObject
+  | UseSelectionSelectorObject[];
 
 export type UseSelectionOutput<T> = {
   all: UseSelectionArray<T>;
@@ -17,9 +20,9 @@ export type UseSelectionOutput<T> = {
   selected: T[];
   actions: {
     set: (options: T[]) => void;
-    select: (selector: UseSelectionSelector<T>) => void;
+    select: (selector: UseSelectionSelector) => void;
     add: (options: T | T[]) => void;
-    remove: (selector: UseSelectionSelector<T>) => void;
+    remove: (selector: UseSelectionSelector) => void;
   };
 };
 
@@ -27,24 +30,12 @@ export type UseSelectionConfig<T> = {
   allowMultiple?: boolean;
   toggleSelected?: boolean;
   onSelectionChange?: (oldselecteds: T[], newselecteds: T[]) => void;
-  defaultSelected?: UseSelectionSelector<T>;
+  defaultSelected?: UseSelectionSelector;
 };
 
 export type UseSelectionOption<T> = {
   value: T;
   selected: boolean;
-};
-
-export const isSelectionSelectorArray = <T>(
-  object: T[] | UseSelectionSelectorFunction<T> | NonNullable<T>,
-): object is T[] => {
-  return Array.isArray(object);
-};
-
-export const isSelectionSelectorFunction = <T>(
-  object: T[] | UseSelectionSelectorFunction<T> | NonNullable<T>,
-): object is UseSelectionSelectorFunction<T> => {
-  return typeof object === 'function';
 };
 
 export const isUseSelectionOption = <T>(object: T | UseSelectionOption<T>): object is UseSelectionOption<T> => {
@@ -83,23 +74,28 @@ export class UseSelectionArray<T> {
     return new UseSelectionArray<T>(options ? options : this, this.configuration);
   }
 
-  private test(selector: UseSelectionSelector<T>, option: UseSelectionOption<T>) {
-    console.log(selector);
+  private test(selector: UseSelectionSelector, option: UseSelectionOption<T>, key: string | number = ''): boolean {
     if (!option.value || !selector) {
       return false;
     }
-    if (isSelectionSelectorArray(selector) && selector.includes(option.value as T)) {
-      return true;
-    } else if (isSelectionSelectorFunction(selector) && selector(option.value as T)) {
-      return true;
-    } else if (option.value === selector) {
-      return true;
-    } else {
-      return false;
+    if (Array.isArray(selector)) {
+      return selector.some((eachSelector) => {
+        return this.test(eachSelector, option);
+      });
     }
+    if (typeof selector === 'string' || typeof selector === 'number') {
+      return key ? (option.value as any)[key] === selector : option.value === selector;
+    }
+    if (typeof selector === 'object' && selector.constructor === Object) {
+      const result = Object.keys(selector).every((eachKey) => {
+        return this.test(selector[eachKey], option, eachKey);
+      });
+      return result;
+    }
+    return false;
   }
 
-  select(selector: UseSelectionSelector<T> | null | undefined): UseSelectionArray<T> {
+  select(selector?: UseSelectionSelector): UseSelectionArray<T> {
     if (!selector) {
       return this.spreadNew();
     }
@@ -115,7 +111,7 @@ export class UseSelectionArray<T> {
       });
     }
     newstates = this.selectionOptions.map((option) => {
-      let valid = this.test(selector, option);
+      const valid = this.test(selector, option);
       const result = {
         ...option,
         selected:
@@ -150,7 +146,7 @@ export class UseSelectionArray<T> {
     return this.spreadNew();
   }
 
-  remove(selector: UseSelectionSelector<T>): UseSelectionArray<T> {
+  remove(selector?: UseSelectionSelector): UseSelectionArray<T> {
     if (!selector) {
       return this;
     }
@@ -183,26 +179,21 @@ const useSelection = <T>(initialOptions: T[] = [], config: UseSelectionConfig<T>
   const set = useCallback((newoptions: UseSelectionArray<T> | UseSelectionOption<T>[] | T[]): void => {
     setOptions(new UseSelectionArray<T>(newoptions, config));
   }, []);
-  const select = useCallback((selector: UseSelectionSelector<T>): void => {
+  const select = useCallback((selector: UseSelectionSelector): void => {
     setOptions((prev) => {
       return prev.select(selector);
     });
-    console.log('Set');
   }, []);
   const add = useCallback((newoptions: T | T[]): void => {
     setOptions((prev) => {
       return prev.add(newoptions);
     });
   }, []);
-  const remove = useCallback((selector: UseSelectionSelector<T>): void => {
+  const remove = useCallback((selector: UseSelectionSelector): void => {
     setOptions((prev) => {
       return prev.remove(selector);
     });
   }, []);
-
-  useEffect(() => {
-    console.log('Rerendered', options);
-  }, [options]);
 
   return {
     all: options,
