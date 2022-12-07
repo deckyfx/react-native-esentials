@@ -9,7 +9,7 @@ const MultiSelectionsComplex = () => {
   } = useSelection(
     [
       {
-        id: 2,
+        id: 1,
         name: 'Pam',
         age: 23,
       },
@@ -31,21 +31,18 @@ const MultiSelectionsComplex = () => {
   );
 
   const selectOption = (e) => {
-    select({ id: currentTarget.value });
+    select({ id: parseInt(e.currentTarget.value) });
   };
 
   const isSelected = (option) => {
-    console.log(all);
-    selected.find((eachSelected) => {
-      console.log('?', option.id);
-      eachSelected.id == option.id;
+    return selected.find((eachSelected) => {
+      return eachSelected.id == option.id;
     });
-    return false;
   };
 
   return (
     <div className="flex space-x-4 items-center ">
-      <div>Multi Selections with complext data</div>{' '}
+      <div>Multi Selections with complex option data</div>{' '}
       {options.map((option, index) => {
         return (
           <div className="flex items-center mb-4" key={index.toString()}>

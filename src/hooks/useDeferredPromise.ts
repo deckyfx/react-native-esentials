@@ -1,4 +1,4 @@
-// https://bobbyhadz.com/blog/react-cannot-assign-to-current-because-read-only-property
+// https://dev.to/vicnovais/creating-a-deferred-promise-hook-in-react-39jh
 
 import { useRef } from 'react';
 

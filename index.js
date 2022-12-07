@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TimerUtil = exports.useTime = exports.useUpdateEffect = exports.useToggle = exports.useTimeout = exports.useThrotle = exports.useStep = exports.useQueuePromise = exports.useQueue = exports.usePromise = exports.useMap = exports.useIsFirstRender = exports.useInterval = exports.useFetch = exports.useEffectOnce = exports.useDeferredPromise = exports.useDebouncedEffect = exports.useDebounce = exports.useCounter = exports.useCountdown = exports.useBoolean = exports.QueuePromiseState = exports.QueuePromise = exports.createUseEventBus = exports.useEventBus = exports.E = exports.EventBusInstance = exports.EventBus = exports.createUseStore = exports.useStore = exports.S = exports.StoreInstance = exports.Store = void 0;
+exports.SelectionArray = exports.useSelection = exports.TimerUtil = exports.useTime = exports.useUpdateEffect = exports.useToggle = exports.useTimeout = exports.useThrotle = exports.useStep = exports.useQueuePromise = exports.useQueue = exports.usePromise = exports.useMap = exports.useIsFirstRender = exports.useInterval = exports.useFetch = exports.useEffectOnce = exports.useDeferredPromise = exports.useDebouncedEffect = exports.useDebounce = exports.useCounter = exports.useCountdown = exports.useBoolean = exports.QueuePromiseState = exports.QueuePromise = exports.createUseEventBus = exports.useEventBus = exports.E = exports.EventBusInstance = exports.EventBus = exports.createUseStore = exports.useStore = exports.S = exports.StoreInstance = exports.Store = void 0;
 const Store_1 = __importStar(require("./stores/Store"));
 const EventBus_1 = __importStar(require("./events/EventBus"));
 const queue_promise_1 = __importStar(require("./queues/queue-promise"));
@@ -50,6 +50,7 @@ const useTimeout_1 = __importDefault(require("./hooks/useTimeout"));
 const useToggle_1 = __importDefault(require("./hooks/useToggle"));
 const useUpdateEffect_1 = __importDefault(require("./hooks/useUpdateEffect"));
 const useTime_1 = __importStar(require("./hooks/useTime"));
+const useSelection_1 = __importStar(require("./hooks/useSelection"));
 exports.Store = Store_1.default;
 exports.StoreInstance = Store_1.StoreInstance;
 exports.S = Store_1.S;
@@ -83,6 +84,8 @@ exports.useToggle = useToggle_1.default;
 exports.useUpdateEffect = useUpdateEffect_1.default;
 exports.useTime = useTime_1.default;
 exports.TimerUtil = useTime_1.TimerUtil;
+exports.useSelection = useSelection_1.default;
+exports.SelectionArray = useSelection_1.UseSelectionArray;
 exports.default = {
     Store: exports.Store,
     StoreInstance: exports.StoreInstance,
@@ -91,6 +94,7 @@ exports.default = {
     createUseStore: exports.createUseStore,
     EventBus: exports.EventBus,
     EventBusInstance: exports.EventBusInstance,
+    E: exports.E,
     useEventBus: exports.useEventBus,
     createUseEventBus: exports.createUseEventBus,
     QueuePromise: exports.QueuePromise,
@@ -116,4 +120,6 @@ exports.default = {
     useUpdateEffect: exports.useUpdateEffect,
     useTime: exports.useTime,
     TimerUtil: exports.TimerUtil,
+    useSelection: exports.useSelection,
+    SelectionArray: exports.SelectionArray,
 };

@@ -4,6 +4,7 @@ import _EventBus from './events/EventBus';
 import _Queue from './queues/queue';
 import _QueuePromise, { QueuePromiseState as _QueuePromiseState } from './queues/queue-promise';
 import { TimerUtil as _TimerUtil } from './hooks/useTime';
+import { UseSelectionArray as _UseSelectionArray } from './hooks/useSelection';
 export declare const Store: typeof _Store;
 export declare const StoreInstance: _Store;
 export declare const S: _Store;
@@ -82,6 +83,8 @@ export declare const useToggle: (defaultValue?: boolean | undefined) => {
 export declare const useUpdateEffect: (effect: import("react").EffectCallback, deps?: import("react").DependencyList | undefined) => void;
 export declare const useTime: (format?: import("./hooks/useTime").TimeFormat) => import("./hooks/useTime").TimerUtilGetTimeOutput;
 export declare const TimerUtil: typeof _TimerUtil;
+export declare const useSelection: <T>(initialOptions: T[] | undefined, config: import("./hooks/useSelection").UseSelectionConfig<T>) => import("./hooks/useSelection").UseSelectionOutput<T>;
+export declare const SelectionArray: typeof _UseSelectionArray;
 declare const _default: {
     Store: typeof _Store;
     StoreInstance: _Store;
@@ -90,6 +93,7 @@ declare const _default: {
     createUseStore: (instance: _Store) => ((selector?: (state: any) => any) => any) | null;
     EventBus: typeof _EventBus;
     EventBusInstance: _EventBus;
+    E: _EventBus;
     useEventBus: (filter: RegExp | (string | number) | {
         channel: string | number;
         event: string | number;
@@ -160,5 +164,7 @@ declare const _default: {
     useUpdateEffect: (effect: import("react").EffectCallback, deps?: import("react").DependencyList | undefined) => void;
     useTime: (format?: import("./hooks/useTime").TimeFormat) => import("./hooks/useTime").TimerUtilGetTimeOutput;
     TimerUtil: typeof _TimerUtil;
+    useSelection: <T_5>(initialOptions: T_5[] | undefined, config: import("./hooks/useSelection").UseSelectionConfig<T_5>) => import("./hooks/useSelection").UseSelectionOutput<T_5>;
+    SelectionArray: typeof _UseSelectionArray;
 };
 export default _default;
