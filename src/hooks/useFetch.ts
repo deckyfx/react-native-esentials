@@ -1,10 +1,15 @@
 // https://usehooks-ts.com/react-hook/use-fetch
 
-import { useEffect, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 
 export interface FetchState<T> {
   data?: T;
   error?: Error;
+  loading?: boolean;
+}
+
+export interface FectOutput<T> extends FetchState<T> {
+  execute: () => void;
 }
 
 type Cache<T> = { [url: string]: T };
@@ -12,7 +17,7 @@ type Cache<T> = { [url: string]: T };
 // discriminated union type
 type Action<T> = { type: 'loading' } | { type: 'fetched'; payload: T } | { type: 'error'; payload: Error };
 
-const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<T> => {
+const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boolean = true): FectOutput<T> => {
   const cache = useRef<Cache<T>>({});
 
   // Used to prevent state update if the component is unmounted
@@ -21,17 +26,18 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<
   const initialState: FetchState<T> = {
     error: undefined,
     data: undefined,
+    loading: false,
   };
 
   // Keep state logic separated
   const fetchReducer = (_state: FetchState<T>, action: Action<T>): FetchState<T> => {
     switch (action.type) {
       case 'loading':
-        return { ...initialState };
+        return { ...initialState, loading: true };
       case 'fetched':
-        return { ...initialState, data: action.payload };
+        return { ...initialState, loading: false, data: action.payload };
       case 'error':
-        return { ...initialState, error: action.payload };
+        return { ...initialState, loading: false, error: action.payload };
       default:
         return _state;
     }
@@ -39,7 +45,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
-  useEffect(() => {
+  const execute = useCallback(async () => {
     // Do nothing if the url is not given
     if (!url) return;
 
@@ -82,7 +88,13 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit): FetchState<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
-  return state;
+  useEffect(() => {
+    if (autorun) {
+      execute();
+    }
+  }, [url]);
+
+  return { ...state, execute };
 };
 
 export default useFetch;
