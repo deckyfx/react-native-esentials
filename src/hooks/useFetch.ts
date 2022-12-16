@@ -24,7 +24,7 @@ type Action<T> =
   | { type: DispatchFecthState.ERROR; payload: Error };
 
 export interface FectOutput<T> extends FetchState<T> {
-  execute: (url: string | undefined, options: RequestInit | undefined) => void;
+  execute: (url: string | null | undefined, options: RequestInit | null | undefined) => void;
 }
 
 const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boolean = true): FectOutput<T> => {
