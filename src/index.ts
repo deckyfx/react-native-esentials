@@ -15,6 +15,8 @@ import _EventBus, {
 import _Queue from './queues/queue';
 import _QueuePromise, { QueuePromiseState as _QueuePromiseState } from './queues/queue-promise';
 
+import _Base64 from './base64/index';
+
 import _useBoolean from './hooks/useBoolean';
 import _useCountdown from './hooks/useCountdown';
 import _useCounter from './hooks/useCounter';
@@ -36,6 +38,9 @@ import _useToggle from './hooks/useToggle';
 import _useUpdateEffect from './hooks/useUpdateEffect';
 import _useTime, { TimerUtil as _TimerUtil } from './hooks/useTime';
 import _useSelection, { UseSelectionArray as _UseSelectionArray } from './hooks/useSelection';
+import _useArray from './hooks/useArray';
+import _useAsync from './hooks/useAsync';
+import _useState from './hooks/useState';
 
 export const Store = _Store;
 export const StoreInstance = _StoreInstance;
@@ -51,6 +56,9 @@ export const createUseEventBus = _createUseEventBus;
 
 export const QueuePromise = _QueuePromise;
 export const QueuePromiseState = _QueuePromiseState;
+
+export const Base64 = _Base64;
+
 export const useBoolean = _useBoolean;
 export const useCountdown = _useCountdown;
 export const useCounter = _useCounter;
@@ -74,6 +82,9 @@ export const useTime = _useTime;
 export const TimerUtil = _TimerUtil;
 export const useSelection = _useSelection;
 export const SelectionArray = _UseSelectionArray;
+export const useArray = _useArray;
+export const useAsync = _useAsync;
+export const useState = _useState;
 
 export default {
   Store,
@@ -90,6 +101,8 @@ export default {
 
   QueuePromise,
   QueuePromiseState,
+
+  Base64,
 
   useBoolean,
   useCountdown,
@@ -114,4 +127,7 @@ export default {
   TimerUtil,
   useSelection,
   SelectionArray,
+  useArray,
+  useAsync,
+  useState,
 };

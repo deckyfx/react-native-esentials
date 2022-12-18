@@ -24,7 +24,8 @@ type Action<T> =
   | { type: DispatchFecthState.ERROR; payload: Error };
 
 export interface FectOutput<T> extends FetchState<T> {
-  execute: (url: string | null | undefined, options: RequestInit | null | undefined) => void;
+  fetch: (url: string | null | undefined, options: RequestInit | null | undefined) => void;
+  abort: () => void;
 }
 
 const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boolean = true): FectOutput<T> => {
@@ -56,7 +57,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
   const execute = useCallback(
-    async (newurl: string | null | undefined, newoptions: RequestInit | null | undefined) => {
+    async (newurl: string | null | undefined = null, newoptions: RequestInit | null | undefined = null) => {
       if (!newurl) {
         newurl = url;
       }
@@ -109,13 +110,15 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
     [url],
   );
 
+  const abort = useCallback(() => {}, []);
+
   useEffect(() => {
     if (autorun) {
-      execute(undefined, undefined);
+      execute();
     }
   }, [url]);
 
-  return { ...state, execute };
+  return { ...state, fetch: execute, abort };
 };
 
 export default useFetch;
