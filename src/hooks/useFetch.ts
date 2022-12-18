@@ -110,7 +110,9 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
     [url],
   );
 
+  /* tslint:disable:no-empty */
   const abort = useCallback(() => {}, []);
+  /* tslint:enable */
 
   useEffect(() => {
     if (autorun) {
