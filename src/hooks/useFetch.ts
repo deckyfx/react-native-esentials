@@ -23,12 +23,23 @@ type Action<T> =
   | { type: DispatchFecthState.FETCHED; payload: T }
   | { type: DispatchFecthState.ERROR; payload: Error };
 
-export interface FectOutput<T> extends FetchState<T> {
+export interface UseFecthOptions extends RequestInit {
+  autorun?: boolean;
+  cacheResponse?: boolean;
+}
+
+export interface FecthOutput<T> extends FetchState<T> {
   fetch: (url: string | null | undefined, options: RequestInit | null | undefined) => void;
   abort: () => void;
 }
 
-const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boolean = true): FectOutput<T> => {
+const useFetch = <T = unknown>(
+  url?: string,
+  options: UseFecthOptions = {
+    autorun: false,
+    cacheResponse: false,
+  },
+): FecthOutput<T> => {
   const cache = useRef<Cache<T>>({});
 
   // Used to prevent state update if the component is unmounted
@@ -75,7 +86,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
         dispatch({ type: DispatchFecthState.LOADING });
 
         // If a cache exists for this url, return it
-        if (cache.current[newurl!]) {
+        if (options.cacheResponse && cache.current[newurl!]) {
           dispatch({ type: DispatchFecthState.FETCHED, payload: cache.current[newurl!] });
           return;
         }
@@ -87,7 +98,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
           }
 
           const data = (await response.json()) as T;
-          cache.current[newurl!] = data;
+          if (options.cacheResponse) cache.current[newurl!] = data;
           if (cancelRequest.current) return;
 
           dispatch({ type: DispatchFecthState.FETCHED, payload: data });
@@ -115,7 +126,7 @@ const useFetch = <T = unknown>(url?: string, options?: RequestInit, autorun: boo
   /* tslint:enable */
 
   useEffect(() => {
-    if (autorun) {
+    if (options.autorun) {
       execute();
     }
   }, [url]);

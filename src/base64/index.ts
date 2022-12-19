@@ -55,9 +55,8 @@ class Base64 {
       // convert the first 8 bits to one ascii character
       bc++ % 4)
         ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-        : 0
-    ) /* tslint:enable */
-    {
+        : 0 /* tslint:enable */
+    ) {
       // try to find character in table (0-63, not found => -1)
       buffer = Base64.characters.indexOf(buffer);
     }
