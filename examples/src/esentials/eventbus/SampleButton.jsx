@@ -8,7 +8,7 @@ import { joinClasses } from '../Helper';
 
 const SampleButton = ({}) => {
   const dispatchEvent = () => {
-    E.dispatch(SampleEvent, []);
+    E.dispatch(SampleEvent);
   };
 
   return (

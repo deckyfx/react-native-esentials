@@ -12,6 +12,14 @@ type EventBusSubscriberListenerFilter =
   | EventBusSubscriberListenerFilterConfig;
 type EventBusSubscriberListener = [EventBusSubscriberListenerFilter, (...args: any[]) => any];
 
+
+/**
+ * @description Master class for EventBus
+ * @author Decky Fx
+ *
+ * @class EventBus
+ * @typedef {EventBus}
+ */
 class EventBus {
   // tslint:disable-next-line:variable-name
   static __instance__: EventBus;
@@ -34,7 +42,7 @@ class EventBus {
     this._subscribers = [];
   }
 
-  subscribe(filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any) {
+  subscribe(filter: EventBusSubscriberListenerFilter, callback: (...args: any[]) => any): undefined | (() => void) {
     if (filter === undefined || filter === null) {
       return undefined;
     }
@@ -49,27 +57,34 @@ class EventBus {
     };
   }
 
-  dispatch(_event: AllowedFilterType | EventBusSubscriberListenerFilterConfig, args: unknown[] = []): void {
-    let { event } = _event as EventBusSubscriberListenerFilterConfig;
+  /**
+   * @author Decky Fx
+   * @description Dispatch a signal to an Event identifier
+   *
+   * @param {(AllowedFilterType | EventBusSubscriberListenerFilterConfig)} event Event identifier
+   * @param {...any[]} args Arguments to be sent along with the signal
+   */
+  dispatch(event: AllowedFilterType | EventBusSubscriberListenerFilterConfig, ...args: any[]): void {
+    let { event: eventName } = event as EventBusSubscriberListenerFilterConfig;
 
-    if (typeof _event === 'string') {
-      event = _event;
+    if (typeof event === 'string') {
+      eventName = event;
     }
 
-    if (typeof _event === 'string') {
-      args.push({ event });
+    if (typeof event === 'string') {
+      args.unshift({ event: eventName });
     } else {
-      args.unshift(_event);
+      args.unshift(event);
     }
 
     this._subscribers.forEach(([filter, callback]) => {
-      if (typeof filter === 'string' && filter !== event) {
+      if (typeof filter === 'string' && filter !== eventName) {
         return;
       }
-      if (Array.isArray(filter) && !filter.includes(event)) {
+      if (Array.isArray(filter) && !filter.includes(eventName)) {
         return;
       }
-      if (filter instanceof RegExp && !filter.test(event.toString())) {
+      if (filter instanceof RegExp && !filter.test(eventName.toString())) {
         return;
       }
       if (typeof filter === 'function' && !filter(...args)) {
@@ -90,6 +105,15 @@ class EventBus {
 export const EventBusInstance = new EventBus();
 export const E = EventBusInstance; // short hand
 
+/**
+ * @author Decky Fx
+ * @description Dispatch a signal to an Event identifier
+ *
+ * @param {EventBusSubscriberListenerFilter} filter Event identifer, or a event filter
+ * @param {(...args: any[]) => any} callback callback to be run when signal is received
+ * @param {unknown[]} [deps=[]] dependencies, ussualy leave it to empty
+ * @returns {any, deps?: {}) => (event: AllowedFilterType | EventBusSubscriberListenerFilterConfig, ...args: {}) => void}
+ */
 export const useEventBus = (
   filter: EventBusSubscriberListenerFilter,
   callback: (...args: any[]) => any,

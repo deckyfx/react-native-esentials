@@ -26,10 +26,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SelectionArray = exports.useSelection = exports.TimerUtil = exports.useTime = exports.useUpdateEffect = exports.useToggle = exports.useTimeout = exports.useThrotle = exports.useStep = exports.useQueuePromise = exports.useQueue = exports.usePromise = exports.useMap = exports.useIsFirstRender = exports.useInterval = exports.useFetch = exports.useEffectOnce = exports.useDeferredPromise = exports.useDebouncedEffect = exports.useDebounce = exports.useCounter = exports.useCountdown = exports.useBoolean = exports.QueuePromiseState = exports.QueuePromise = exports.createUseEventBus = exports.useEventBus = exports.E = exports.EventBusInstance = exports.EventBus = exports.createUseStore = exports.useStore = exports.S = exports.StoreInstance = exports.Store = void 0;
+exports.useState = exports.useAsync = exports.useArray = exports.SelectionArray = exports.useSelection = exports.TimerUtil = exports.useTime = exports.useUpdateEffect = exports.useToggle = exports.useTimeout = exports.useThrotle = exports.useStep = exports.useQueuePromise = exports.useQueue = exports.usePromise = exports.useMap = exports.useIsFirstRender = exports.useInterval = exports.useFetch = exports.useEffectOnce = exports.useDeferredPromise = exports.useDebouncedEffect = exports.useDebounce = exports.useCounter = exports.useCountdown = exports.useBoolean = exports.Base64 = exports.QueuePromiseState = exports.QueuePromise = exports.createUseEventBus = exports.useEventBus = exports.E = exports.EventBusInstance = exports.EventBus = exports.createUseStore = exports.useStore = exports.S = exports.StoreInstance = exports.Store = void 0;
 const Store_1 = __importStar(require("./stores/Store"));
 const EventBus_1 = __importStar(require("./events/EventBus"));
 const queue_promise_1 = __importStar(require("./queues/queue-promise"));
+const index_1 = __importDefault(require("./base64/index"));
 const useBoolean_1 = __importDefault(require("./hooks/useBoolean"));
 const useCountdown_1 = __importDefault(require("./hooks/useCountdown"));
 const useCounter_1 = __importDefault(require("./hooks/useCounter"));
@@ -51,6 +52,9 @@ const useToggle_1 = __importDefault(require("./hooks/useToggle"));
 const useUpdateEffect_1 = __importDefault(require("./hooks/useUpdateEffect"));
 const useTime_1 = __importStar(require("./hooks/useTime"));
 const useSelection_1 = __importStar(require("./hooks/useSelection"));
+const useArray_1 = __importDefault(require("./hooks/useArray"));
+const useAsync_1 = __importDefault(require("./hooks/useAsync"));
+const useState_1 = __importDefault(require("./hooks/useState"));
 exports.Store = Store_1.default;
 exports.StoreInstance = Store_1.StoreInstance;
 exports.S = Store_1.S;
@@ -63,6 +67,7 @@ exports.useEventBus = EventBus_1.useEventBus;
 exports.createUseEventBus = EventBus_1.createUseEventBus;
 exports.QueuePromise = queue_promise_1.default;
 exports.QueuePromiseState = queue_promise_1.QueuePromiseState;
+exports.Base64 = index_1.default;
 exports.useBoolean = useBoolean_1.default;
 exports.useCountdown = useCountdown_1.default;
 exports.useCounter = useCounter_1.default;
@@ -86,6 +91,9 @@ exports.useTime = useTime_1.default;
 exports.TimerUtil = useTime_1.TimerUtil;
 exports.useSelection = useSelection_1.default;
 exports.SelectionArray = useSelection_1.UseSelectionArray;
+exports.useArray = useArray_1.default;
+exports.useAsync = useAsync_1.default;
+exports.useState = useState_1.default;
 exports.default = {
     Store: exports.Store,
     StoreInstance: exports.StoreInstance,
@@ -99,6 +107,7 @@ exports.default = {
     createUseEventBus: exports.createUseEventBus,
     QueuePromise: exports.QueuePromise,
     QueuePromiseState: exports.QueuePromiseState,
+    Base64: exports.Base64,
     useBoolean: exports.useBoolean,
     useCountdown: exports.useCountdown,
     useCounter: exports.useCounter,
@@ -122,4 +131,7 @@ exports.default = {
     TimerUtil: exports.TimerUtil,
     useSelection: exports.useSelection,
     SelectionArray: exports.SelectionArray,
+    useArray: exports.useArray,
+    useAsync: exports.useAsync,
+    useState: exports.useState,
 };

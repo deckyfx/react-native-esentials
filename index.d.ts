@@ -29,6 +29,7 @@ export declare const createUseEventBus: (eventbus: _EventBus) => ((filter: RegEx
 }, args?: unknown[]) => void) | undefined;
 export declare const QueuePromise: typeof _QueuePromise;
 export declare const QueuePromiseState: typeof _QueuePromiseState;
+export declare const Base64: {};
 export declare const useBoolean: (defaultValue?: boolean | undefined) => {
     value: boolean;
     setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
@@ -56,7 +57,7 @@ export declare const useDeferredPromise: <DeferType>() => [() => {
     promise: Promise<DeferType>;
 } | null];
 export declare const useEffectOnce: (effect: import("react").EffectCallback) => void;
-export declare const useFetch: <T = unknown>(url?: string | undefined, options?: RequestInit | undefined) => import("./hooks/useFetch").FetchState<T>;
+export declare const useFetch: <T = unknown>(url?: string | undefined, options?: import("./hooks/useFetch").UseFecthOptions) => import("./hooks/useFetch").FecthOutput<T>;
 export declare const useInterval: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useInterval").UseIntervalOutput;
 export declare const useIsFirstRender: () => boolean;
 export declare const useMap: <K, V>(initialState?: import("./hooks/useMap").MapOrEntries<K, V>) => [Omit<Map<K, V>, "clear" | "set" | "delete">, import("./hooks/useMap").MapActions<K, V>];
@@ -85,6 +86,9 @@ export declare const useTime: (format?: import("./hooks/useTime").TimeFormat) =>
 export declare const TimerUtil: typeof _TimerUtil;
 export declare const useSelection: <T>(initialOptions: T[] | undefined, config: import("./hooks/useSelection").UseSelectionConfig<T>) => import("./hooks/useSelection").UseSelectionOutput<T>;
 export declare const SelectionArray: typeof _UseSelectionArray;
+export declare const useArray: <T>(initial: T[]) => import("./hooks/useArray").UseArrayOutput<T>;
+export declare const useAsync: <T>(asyncFunction: (...args: any[]) => Promise<T>, immediate?: boolean) => import("./hooks/useAsync").UseAsyncOutput<T>;
+export declare const useState: <T>(initialValue: T | (() => T)) => import("./hooks/useState").State<T>;
 declare const _default: {
     Store: typeof _Store;
     StoreInstance: _Store;
@@ -110,6 +114,7 @@ declare const _default: {
     }, args?: unknown[]) => void) | undefined;
     QueuePromise: typeof _QueuePromise;
     QueuePromiseState: typeof _QueuePromiseState;
+    Base64: {};
     useBoolean: (defaultValue?: boolean | undefined) => {
         value: boolean;
         setValue: import("react").Dispatch<import("react").SetStateAction<boolean>>;
@@ -137,7 +142,7 @@ declare const _default: {
         promise: Promise<DeferType>;
     } | null];
     useEffectOnce: (effect: import("react").EffectCallback) => void;
-    useFetch: <T_1 = unknown>(url?: string | undefined, options?: RequestInit | undefined) => import("./hooks/useFetch").FetchState<T_1>;
+    useFetch: <T_1 = unknown>(url?: string | undefined, options?: import("./hooks/useFetch").UseFecthOptions) => import("./hooks/useFetch").FecthOutput<T_1>;
     useInterval: (callback: () => void, delay: number | null, autostart?: boolean) => import("./hooks/useInterval").UseIntervalOutput;
     useIsFirstRender: () => boolean;
     useMap: <K, V>(initialState?: import("./hooks/useMap").MapOrEntries<K, V>) => [Omit<Map<K, V>, "clear" | "set" | "delete">, import("./hooks/useMap").MapActions<K, V>];
@@ -166,5 +171,8 @@ declare const _default: {
     TimerUtil: typeof _TimerUtil;
     useSelection: <T_5>(initialOptions: T_5[] | undefined, config: import("./hooks/useSelection").UseSelectionConfig<T_5>) => import("./hooks/useSelection").UseSelectionOutput<T_5>;
     SelectionArray: typeof _UseSelectionArray;
+    useArray: <T_6>(initial: T_6[]) => import("./hooks/useArray").UseArrayOutput<T_6>;
+    useAsync: <T_7>(asyncFunction: (...args: any[]) => Promise<T_7>, immediate?: boolean) => import("./hooks/useAsync").UseAsyncOutput<T_7>;
+    useState: <T_8>(initialValue: T_8 | (() => T_8)) => import("./hooks/useState").State<T_8>;
 };
 export default _default;
