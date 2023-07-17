@@ -14,11 +14,11 @@ Written in typescript
  - etc
 
 ## Installing
-npm install @decky.fx/react-native-essentials@^1.0.4
+npm install @decky.fx/react-native-essentials@^1.0.14
 
 or
 
-yarn add @decky.fx/react-native-essentials@^1.0.4
+yarn add @decky.fx/react-native-essentials@^1.0.14
 
 How to publish scoped npm package?
 https://www.linkedin.com/pulse/publish-scoped-npm-package-your-organization-rashi-dhar

@@ -57,16 +57,10 @@ const useCountdown = (
   };
 
   const countdownCallback = useCallback(() => {
-    if (isIncrement && count === countStop! - 1) {
-      if (savedCallback.current) {
-        savedCallback.current();
-      }
-    } else if (!isIncrement && count === countStop! + 1) {
-      if (savedCallback.current) {
-        savedCallback.current();
-      }
-    }
     if (count === countStop) {
+      if (savedCallback.current) {
+        savedCallback.current();
+      }
       stop();
       return;
     }

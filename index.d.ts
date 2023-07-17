@@ -16,17 +16,17 @@ export declare const E: _EventBus;
 export declare const useEventBus: (filter: RegExp | (string | number) | {
     channel: string | number;
     event: string | number;
-} | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (_event: (string | number) | {
+} | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (event: (string | number) | {
     channel: string | number;
     event: string | number;
-}, args?: unknown[]) => void;
+}, ...args: any[]) => void;
 export declare const createUseEventBus: (eventbus: _EventBus) => ((filter: RegExp | (string | number) | {
     channel: string | number;
     event: string | number;
-} | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (_event: (string | number) | {
+} | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (event: (string | number) | {
     channel: string | number;
     event: string | number;
-}, args?: unknown[]) => void) | undefined;
+}, ...args: any[]) => void) | undefined;
 export declare const QueuePromise: typeof _QueuePromise;
 export declare const QueuePromiseState: typeof _QueuePromiseState;
 export declare const Base64: {};
@@ -101,17 +101,17 @@ declare const _default: {
     useEventBus: (filter: RegExp | (string | number) | {
         channel: string | number;
         event: string | number;
-    } | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (_event: (string | number) | {
+    } | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (event: (string | number) | {
         channel: string | number;
         event: string | number;
-    }, args?: unknown[]) => void;
+    }, ...args: any[]) => void;
     createUseEventBus: (eventbus: _EventBus) => ((filter: RegExp | (string | number) | {
         channel: string | number;
         event: string | number;
-    } | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (_event: (string | number) | {
+    } | (string | number)[] | ((...args: any[]) => any), callback: (...args: any[]) => any, deps?: unknown[]) => (event: (string | number) | {
         channel: string | number;
         event: string | number;
-    }, args?: unknown[]) => void) | undefined;
+    }, ...args: any[]) => void) | undefined;
     QueuePromise: typeof _QueuePromise;
     QueuePromiseState: typeof _QueuePromiseState;
     Base64: {};
